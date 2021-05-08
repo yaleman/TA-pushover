@@ -1,0 +1,79 @@
+<form class="form-horizontal form-complex">
+<div class="control-group">
+	<label class="control-label" for="pushover_message">Message <span class="required">*</span> </label>
+    <div class="controls">
+	<input type="text" name="action.pushover.param.message" id="pushover_message"/>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="pushover_title">Alert Title  </label>
+    <div class="controls">
+	<input type="text" name="action.pushover.param.title" id="pushover_title"/>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="pushover_additional_url">Additional URL  </label>
+    <div class="controls">
+	<input type="text" name="action.pushover.param.additional_url" id="pushover_additional_url"/>
+                <span class="help-block">
+                    Specify a URL to be displayed with the message.
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="pushover_url_title">URL Title  </label>
+    <div class="controls">
+	<input type="text" name="action.pushover.param.url_title" id="pushover_url_title"/>
+                <span class="help-block">
+                    A title for your supplementary URL, otherwise just the URL is shown.
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="pushover_priority">Priority  </label>
+    <div class="controls">
+<select name="action.pushover.param.priority" id="pushover_priority">
+        <option value="-2">No notification or alert</option>
+        <option value="-1">Quiet</option>
+	<option value="0" selected>Default</option>
+        <option value="1">High priority</option>
+        <option value="2">High priority with confirmation</option>
+
+</select>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="pushover_sound">Alert Sound</label>
+    <div class="controls">
+<select name="action.pushover.param.sound" id="pushover_sound">
+	<option value="">User default</option>
+	<option value="pushover">Pushover (default)</option>
+	<option value="bike">Bike</option>
+	<option value="bugle">Bugle</option>
+	<option value="cashregister">Cash Register</option>
+	<option value="classical">Classical</option>
+	<option value="cosmic">Cosmic</option>
+	<option value="falling">Falling</option>
+	<option value="gamelan">Gamelan</option>
+	<option value="incoming">Incoming</option>
+	<option value="intermission">Intermission</option>
+	<option value="magic">Magic</option>
+	<option value="mechanical">Mechanical</option>
+	<option value="pianobar">Piano Bar</option>
+	<option value="siren">Siren</option>
+	<option value="spacealarm">Space Alarm</option>
+	<option value="tugboat">Tug Boat</option>
+	<option value="alien">Alien Alarm (long)</option>
+	<option value="climb">Climb (long)</option>
+	<option value="persistent">Persistent (long)</option>
+	<option value="echo">Pushover Echo (long)</option>
+	<option value="updown">Up Down (long)</option>
+	<option value="vibrate">Vibrate Only</option>
+	<option value="none">None (silent)</option>
+</select>
+                <span class="help-block">
+			The name of one of the <a href="https://pushover.net/api#sounds">sounds supported by device clients</a> to override the user's default sound choice.
+                </span>
+    </div>
+</div>
+</form>

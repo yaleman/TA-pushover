@@ -1,0 +1,1 @@
+This sends alerts via the Pushover message API https://pushover.net/api.
