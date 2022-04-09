@@ -4,7 +4,7 @@ from builtins import object
 import json
 import os
 
-import solnlib.utils as utils
+import aob_py3.solnlib.utils as utils
 
 from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
 
