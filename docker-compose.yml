@@ -1,0 +1,10 @@
+---
+version: 3
+
+services:
+  splunk:
+    image: splunk/splunk:latest
+    restart: never
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=HelloWorld123
