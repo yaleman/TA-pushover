@@ -4,7 +4,9 @@ version: "3.8"
 services:
   splunk:
     image: splunk/splunk:latest
-    restart: never
+    restart: always
     environment:
       - SPLUNK_START_ARGS=--accept-license
       - SPLUNK_PASSWORD=HelloWorld123
+    ports:
+      - "8000:8000"
