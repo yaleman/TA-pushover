@@ -1,21 +1,18 @@
+""" pushover alert action for splunk """
 
-# encoding = utf-8
-# Always put this line at the beginning of this file
-import ta_pushover_declare
+# import ta_pushover_declare
 
-import os
 import sys
+import traceback
 
-from alert_actions_base import ModularAlertBase
-import modalert_pushover_helper
+from ta_pushover.alert_actions_base import ModularAlertBase
+from ta_pushover import modalert_pushover_helper
 
 class AlertActionWorkerpushover(ModularAlertBase):
-
-    def __init__(self, ta_name, alert_name):
-        super(AlertActionWorkerpushover, self).__init__(ta_name, alert_name)
+    """ the alert action """
 
     def validate_params(self):
-
+        """ validates parameters """
         if not self.get_global_setting("user_key"):
             self.log_error('user_key is a mandatory setup parameter, but its value is None.')
             return False
@@ -26,24 +23,23 @@ class AlertActionWorkerpushover(ModularAlertBase):
         return True
 
     def process_event(self, *args, **kwargs):
+        """ actually does the thing """
         status = 0
         try:
             if not self.validate_params():
                 return 3
             status = modalert_pushover_helper.process_event(self, *args, **kwargs)
-        except (AttributeError, TypeError) as ae:
-            self.log_error("Error: {}. Please double check spelling and also verify that a compatible version of Splunk_SA_CIM is installed.".format(str(ae)))
+        except (AttributeError, TypeError) as attribute_error:
+            self.log_error(f"Error: {str(attribute_error)}. Please double check spelling and also verify that a compatible version of Splunk_SA_CIM is installed.")
             return 4
-        except Exception as e:
+        except Exception as error: #pylint: disable=broad-except
             msg = "Unexpected error: {}."
-            if e:
-                self.log_error(msg.format(str(e)))
+            if error:
+                self.log_error(msg.format(str(error)))
             else:
-                import traceback
                 self.log_error(msg.format(traceback.format_exc()))
             return 5
         return status
 
 if __name__ == "__main__":
-    exitcode = AlertActionWorkerpushover("TA-pushover", "pushover").run(sys.argv)
-    sys.exit(exitcode)
+    sys.exit(AlertActionWorkerpushover("TA-pushover", "pushover").run(sys.argv))
