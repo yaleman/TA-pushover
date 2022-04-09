@@ -3,12 +3,13 @@
 # import ta_pushover_declare
 
 import json
+from ssl import SSLCertVerificationError
 import sys
 
 from urllib.parse import urlparse
 # import requests
 
-from .splunklib import client
+from splunklib import client
 # import traceback
 
 # from ta_pushover.alert_actions_base import ModularAlertBase
@@ -63,13 +64,32 @@ if __name__ == "__main__":
     parsed_url = urlparse(config["server_uri"])
 
 
-    client.connect(
-        host=parsed_url.hostname,
-        port=parsed_url.port,
-        scheme=parsed_url.scheme,
-        token=config["session_key"]
-    )
-    # client.connect(token=)
+    print("dumping global config")
+
+    try:
+        splunkclient = client.connect(
+            host=parsed_url.hostname,
+            port=parsed_url.port,
+            scheme=parsed_url.scheme,
+            token=config["session_key"]
+
+        )
+    except SSLCertVerificationError:
+        print("Failed to connect, ssl verification error")
+        splunkclient = client.connect(
+            host=parsed_url.hostname,
+            port=parsed_url.port,
+            scheme=parsed_url.scheme,
+            token=config["session_key"],
+            verify=False,
+        )
+    # client.connect(
+    #     host=parsed_url.hostname,
+    #     port=parsed_url.port,
+    #     scheme=parsed_url.scheme,
+    #     token=config["session_key"]
+    # )
+
 # stdin: {
 # "app":"TA-pushover",
 # "owner":"admin",

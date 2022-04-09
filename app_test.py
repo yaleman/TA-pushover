@@ -86,6 +86,8 @@ def main():
     logger.addHandler(logging.StreamHandler(sys.stdout))
     logger.setLevel(logging.DEBUG)
 
+
+
     splunk = client.connect(
         host=configuration["splunk_hostname"],
         port=configuration["splunk_port"],
@@ -93,7 +95,7 @@ def main():
         password=configuration["splunk_password"],
         autoLogin=True,
         scheme="https",
-        verify=False,
+        # verify=True,
     )
     print("Login ok")
 
