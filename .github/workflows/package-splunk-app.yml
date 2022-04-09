@@ -1,0 +1,32 @@
+name: "Package Splunk App"
+
+"on":
+  push:
+    branches:
+      - main  # Set a branch to deploy
+  pull_request:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Package the app
+        run: |
+          python --version
+          python -m pip install ksconf
+          find . -type f -name '*.conf' -exec ksconf check {} \;
+          tar czf TA-pushover.tgz TA-pushover/
+      - name: Publish release
+        uses: SierraSoftworks/gh-releases@v1.0.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          overwrite: 'true'
+          files: |
+            TA-pushover.tgz
