@@ -1,9 +1,12 @@
+""" rest_helper """
+
 from builtins import str
 from builtins import object
 import requests
 
 
 class TARestHelper(object):
+    """ helper """
     def __init__(self, logger=None):
         self.logger = logger
         self.http_session = None
@@ -20,6 +23,7 @@ class TARestHelper(object):
 
     def send_http_request(self, url, method, parameters=None, payload=None, headers=None, cookies=None, verify=True,
                           cert=None, timeout=None, proxy_uri=None):
+        """ sender """
         if self.http_session is None:
             self._init_request_session(proxy_uri)
         requests_args = {'timeout': (10.0, 5.0), 'verify': verify}
