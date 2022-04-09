@@ -73,7 +73,7 @@ class BaseModInput(smi.Script):
 
         :return: the name of TA this modular input is in
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def get_scheme(self):
         """Get basic scheme, with use_single_instance field set.

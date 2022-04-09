@@ -1,8 +1,9 @@
 """ log helper """
 
-from solnlib.log import Logs
+# from solnlib.log import Logs
 
+from logging import getLogger, Logger
 
-def get_logger(name):
+def get_logger(name: str) -> Logger:
     """ getter """
-    return Logs().get_logger(name)
+    return getLogger(name)
