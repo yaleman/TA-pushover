@@ -1,14 +1,13 @@
+""" bleh """
 from builtins import str
 from builtins import range
 from builtins import object
 import json
 import os
 
-import aob_py3.solnlib.utils as utils
+from ta_pushover.aob_py3.solnlib import utils
 
 from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
-
-
 
 # Usage Examples:
 # setup_util = Setup_Util(uri, session_key)
@@ -77,12 +76,14 @@ ALL_SETTING_TYPES = ['text', 'password', 'checkbox', 'dropdownlist', 'multi_drop
 
 
 def get_schema_path():
+    """ getter """
     dirname = os.path.dirname
     basedir = dirname(dirname(dirname(dirname((dirname(__file__))))))
     return os.path.join(basedir, 'appserver', 'static', 'js', 'build', 'globalConfig.json')
 
-
+# pylint: disable=invalid-name
 class Setup_Util(object):
+    """ setup """
     def __init__(self, uri, session_key, logger=None):
         self.__uri = uri
         self.__session_key = session_key
@@ -107,14 +108,17 @@ class Setup_Util(object):
                                                 GlobalConfigSchema(json.loads(json_schema)))
 
     def log_error(self, msg):
+        """ logger """
         if self.__logger:
             self.__logger.error(msg)
 
     def log_info(self, msg):
+        """ logger """
         if self.__logger:
             self.__logger.info(msg)
 
     def log_debug(self, msg):
+        """ logger """
         if self.__logger:
             self.__logger.debug(msg)
 
@@ -126,9 +130,7 @@ class Setup_Util(object):
             return self._parse_conf_from_global_config(key)
 
     def _parse_conf_from_env(self, global_settings):
-        '''
-        this is run in test env
-        '''
+        """ this is run in test env """
         if not self.__cached_global_settings:
             # format the settings, the setting from env is from global_setting
             # meta
@@ -137,9 +139,9 @@ class Setup_Util(object):
                 if s_k == PROXY_SETTINGS:
                     proxy_enabled = s_v.get(PROXY_ENABLE_KEY)
                     proxy_rdns = s_v.get(PROXY_RDNS_KEY)
-                    if type(proxy_enabled) != bool:
+                    if not isinstance(proxy_enabled, bool):
                         s_v[PROXY_ENABLE_KEY] = utils.is_true(proxy_enabled)
-                    if type(proxy_rdns) != bool:
+                    if not isinstance(proxy_rdns, bool):
                         s_v[PROXY_RDNS_KEY] = utils.is_true(proxy_rdns)
                     self.__cached_global_settings[PROXY_SETTINGS] = s_v
                 elif s_k == LOG_SETTINGS:
@@ -153,14 +155,16 @@ class Setup_Util(object):
                     self.__cached_global_settings[CREDENTIAL_SETTINGS] = s_v
                 else:  # should be customized settings
                     self.__cached_global_settings[CUSTOMIZED_SETTINGS] = {}
-                    for s in s_v:
-                        field_type = s.get('type')
-                        if not field_type:
+                    for setting in s_v:
+                        # field_type = setting.get('type')
+                        if "type" not in setting:
                             self.log_error(
-                                'unknown type for customized var:{}'.format(s))
+                                'unknown type for customized var:{}'.format(setting))
                             continue
-                        self.__cached_global_settings['customized_settings'][s.get('name', '')] = self._transform(
-                            s.get("value", ""), field_type)
+                        self.__cached_global_settings['customized_settings'][setting.get('name', '')] = self._transform(
+                            setting.get("value", ""),
+                            setting["type"],
+                            )
 
         return self.__cached_global_settings
 
@@ -289,55 +293,56 @@ class Setup_Util(object):
                             .format(value, field_type))
 
 
-    '''
-    # the following methods is used by AoB internally
-    # user should not use this
-    # These methods returns the similiar structure like ucc libs
 
-    the output of config is like
-{
-  "account": [
-    {
-      "username": "admin",
-      "credential": "a",
-      "name": "ddddd",
-      "disabled": false
-    }
-  ]
-}
+#     # the following methods is used by AoB internally
+#     # user should not use this
+#     # These methods returns the similiar structure like ucc libs
 
-    the output of settings is like
-{
-  "settings": [
-    {
-      "additional_parameters": {
-        "checkbox": "1",
-        "text": "msn",
-        "disabled": false
-      }
-    },
-    {
-      "proxy": {
-        "proxy_type": "http",
-        "proxy_port": "9999",
-        "proxy_url": "localhost",
-        "proxy_rdns": "1",
-        "disabled": false,
-        "proxy_password": "a",
-        "proxy_username": "admin",
-        "proxy_enabled": "1"
-      }
-    },
-    {
-      "logging": {
-        "loglevel": "ERROR",
-        "disabled": false
-      }
-    }
-  ]
-}
-    '''
+#     the output of config is like
+# {
+#   "account": [
+#     {
+#       "username": "admin",
+#       "credential": "a",
+#       "name": "ddddd",
+#       "disabled": false
+#     }
+#   ]
+# }
+
+#     the output of settings is like
+# {
+#   "settings": [
+#     {
+#       "additional_parameters": {
+#         "checkbox": "1",
+#         "text": "msn",
+#         "disabled": false
+#       }
+#     },
+#     {
+#       "proxy": {
+#         "proxy_type": "http",
+#         "proxy_port": "9999",
+#         "proxy_url": "localhost",
+#         "proxy_rdns": "1",
+#         "disabled": false,
+#         "proxy_password": "a",
+#         "proxy_username": "admin",
+#         "proxy_enabled": "1"
+#       }
+#     },
+#     {
+#       "logging": {
+#         "loglevel": "ERROR",
+#         "disabled": false
+#       }
+#     }
+#   ]
+# }
+
     def get_ucc_log_setting(self):
+        """ getter """
         return {UCC_LOGGING: self._parse_conf(LOG_SETTINGS)}
 
     def get_ucc_proxy_setting(self):
