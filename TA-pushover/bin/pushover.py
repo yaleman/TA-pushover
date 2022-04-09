@@ -43,6 +43,6 @@ import sys
 
 if __name__ == "__main__":
     for value in sys.argv:
-        print(value)
+        print(value, file=sys.stderr)
 
     # sys.exit(AlertActionWorkerpushover("TA-pushover", "pushover").run(sys.argv))
