@@ -13,7 +13,7 @@ if sys.version_info[0] >= 3:
 else:
    from functools32 import lru_cache
 
-from splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
+from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
 from . import ta_consts as c
 from ...splunktacollectorlib import config as sc
 from ...splunktalib.common import util

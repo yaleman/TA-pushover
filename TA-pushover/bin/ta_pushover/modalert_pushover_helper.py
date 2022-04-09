@@ -1,15 +1,10 @@
-
-# encoding = utf-8
-
+""" modalert """
 
 import json
 import sys
 import logging
 
-try:
-    import requests
-except ImportError as error_message:
-    sys.exit(f"Failed to load requests: {error_message}")
+import requests
 
 API_URL = "https://api.pushover.net/1/messages.json"
 
@@ -80,7 +75,7 @@ def process_event(helper, *args, **kwargs):
     }
 
     for event in helper.get_events():
-        helper.log_info("event={}".format(event))
+        helper.log_info(f"event={event}")
         payload = {
             'user' : user_key,
             'message' : helper.get_param("message"),
@@ -98,7 +93,7 @@ def process_event(helper, *args, **kwargs):
             payload['token'] = application_token
             response = requests.post(url=API_URL,json=payload)
             response.raise_for_status()
-        except Exception as exception_data:
+        except Exception as exception_data: # pylint: disable=broad-except
             logging.error(exception_data)
             sys.exit(1)
         helper.log_debug(response.text)

@@ -74,7 +74,7 @@ class Configuration(object):
         :return:
 
         Usage::
-        >>> from splunktaucclib.global_config import GlobalConfig
+        >>> from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig
         >>> global_config = GlobalConfig()
         >>> payload = {
         >>>    'settings': [
@@ -257,7 +257,7 @@ class Inputs(Configuration):
         :return:
 
         Usage::
-        >>> from splunktaucclib.global_config import GlobalConfig
+        >>> from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig
         >>> global_config = GlobalConfig()
         >>> inputs = global_config.inputs.load()
         """
@@ -345,7 +345,7 @@ class Configs(Configuration):
         :return:
 
          Usage::
-        >>> from splunktaucclib.global_config import GlobalConfig
+        >>> from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig
         >>> global_config = GlobalConfig()
         >>> configs = global_config.configs.load()
         """
@@ -376,7 +376,7 @@ class Settings(Configuration):
         :return:
 
          Usage::
-        >>> from splunktaucclib.global_config import GlobalConfig
+        >>> from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig
         >>> global_config = GlobalConfig()
         >>> settings = global_config.settings.load()
         """

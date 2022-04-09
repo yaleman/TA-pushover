@@ -12,7 +12,7 @@ from solnlib.log import Logs
 from solnlib.modular_input import checkpointer
 from solnlib import utils as sutils
 
-from splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
+from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
 from splunk_aoblib.rest_helper import TARestHelper
 from splunk_aoblib.setup_util import Setup_Util
 

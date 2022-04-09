@@ -6,53 +6,50 @@ import os
 
 import solnlib.utils as utils
 
-from splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
+from ta_pushover.aob_py3.splunktaucclib.global_config import GlobalConfig, GlobalConfigSchema
 
 
-'''
-Usage Examples:
-setup_util = Setup_Util(uri, session_key)
-setup_util.get_log_level()
-setup_util.get_proxy_settings()
-setup_util.get_credential_account("my_account_name")
-setup_util.get_customized_setting("my_customized_field_name")
-'''
 
-'''
-setting object structure.
-It is stored in self.__cached_global_settings
-Note, this structure is only maintained in this util.
-setup_util transforms global settings in os environment or from ucc into this structure.
-{
-    "proxy_settings": {
-    "proxy_enabled": False/True,
-    "proxy_url": "example.com",
-    "proxy_port": "1234",
-    "proxy_username": "",
-    "proxy_password": "",
-    "proxy_type": "http",
-    "proxy_rdns": False/True
-    },
-    "log_settings": {
-        "loglevel": "DEBUG"
-    },
-    "credential_settings": [{
-        "name": "account_id",
-        "username": "example_account",
-        "password": "example_password"
-    }, { # supported by ucc, not seen any usage in AoB
-        "api_key": "admin",
-        "api_uuid": "admin",
-        "endpoint": "some url",
-        "name": "account1"
-    }],
-    "customized_settings": {
-        "text_name": "content",
-        "pass_name": "password",
-        "checkbox": 0/1
-    }
-}
-'''
+# Usage Examples:
+# setup_util = Setup_Util(uri, session_key)
+# setup_util.get_log_level()
+# setup_util.get_proxy_settings()
+# setup_util.get_credential_account("my_account_name")
+# setup_util.get_customized_setting("my_customized_field_name")
+
+# setting object structure.
+# It is stored in self.__cached_global_settings
+# Note, this structure is only maintained in this util.
+# setup_util transforms global settings in os environment or from ucc into this structure.
+# {
+#     "proxy_settings": {
+#     "proxy_enabled": False/True,
+#     "proxy_url": "example.com",
+#     "proxy_port": "1234",
+#     "proxy_username": "",
+#     "proxy_password": "",
+#     "proxy_type": "http",
+#     "proxy_rdns": False/True
+#     },
+#     "log_settings": {
+#         "loglevel": "DEBUG"
+#     },
+#     "credential_settings": [{
+#         "name": "account_id",
+#         "username": "example_account",
+#         "password": "example_password"
+#     }, { # supported by ucc, not seen any usage in AoB
+#         "api_key": "admin",
+#         "api_uuid": "admin",
+#         "endpoint": "some url",
+#         "name": "account1"
+#     }],
+#     "customized_settings": {
+#         "text_name": "content",
+#         "pass_name": "password",
+#         "checkbox": 0/1
+#     }
+# }
 
 GLOBAL_SETTING_KEY = "global_settings"
 AOB_TEST_FLAG = 'AOB_TEST'
@@ -96,6 +93,7 @@ class Setup_Util(object):
         self.__global_config = None
 
     def init_global_config(self):
+        """ config """
         if self.__global_config is not None:
             return
         schema_file = get_schema_path()
@@ -103,8 +101,8 @@ class Setup_Util(object):
             self.log_error("Global config JSON file not found!")
             self.__global_config = None
         else:
-            with open(get_schema_path()) as f:
-                json_schema = ''.join([l for l in f])
+            with open(get_schema_path(), encoding="utf-8") as file_handle:
+                json_schema = ''.join([l for l in file_handle])
             self.__global_config = GlobalConfig(self.__uri, self.__session_key,
                                                 GlobalConfigSchema(json.loads(json_schema)))
 
@@ -275,13 +273,13 @@ class Setup_Util(object):
                 raise Exception("Proxy port must be a number!")
 
     def _transform(self, value, field_type):
-        '''
+        """
         This is method is only used when parsing customized global params from env.
         Only checkbox type needs transform. Other types will be extracted automatically when apply json.loads.
         :param value:
         :param field_type: can be checkbox, text, password, dropdownlist, multi_dropdownlist, radiogroup
         :return:
-        '''
+        """
         if field_type == TYPE_CHECKBOX:
             return utils.is_true(value)
         elif field_type in ALL_SETTING_TYPES:

@@ -6,11 +6,11 @@ from urllib.parse import urlparse
 from solnlib.splunkenv import get_splunkd_uri
 from solnlib.splunk_rest_client import SplunkRestClient
 from solnlib.conf_manager import ConfManager
-from splunktaucclib.rest_handler.error import RestError
-from splunktaucclib.rest_handler.admin_external import (
+from ta_pushover.aob_py3.splunktaucclib.rest_handler.error import RestError
+from ta_pushover.aob_py3.splunktaucclib.rest_handler.admin_external import (
     AdminExternalHandler,
 )
-from splunktaucclib.rest_handler import util
+from ta_pushover.aob_py3.splunktaucclib.rest_handler import util
 
 
 def _migrate_error_handle(func):

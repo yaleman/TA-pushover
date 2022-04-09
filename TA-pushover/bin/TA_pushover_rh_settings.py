@@ -1,13 +1,13 @@
 
 import ta_pushover_declare
 
-from splunktaucclib.rest_handler.endpoint import (
+from ta_pushover.aob_py3.splunktaucclib.rest_handler.endpoint import (
     field,
     validator,
     RestModel,
     MultipleModel,
 )
-from splunktaucclib.rest_handler import admin_external, util
+from ta_pushover.aob_py3.splunktaucclib.rest_handler import admin_external, util
 from splunk_aoblib.rest_migration import ConfigMigrationHandler
 
 util.remove_http_proxy_env_vars()
