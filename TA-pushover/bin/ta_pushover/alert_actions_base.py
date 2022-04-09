@@ -1,8 +1,15 @@
+""" alert actions base """
+
+# pylint: disable=wrong-import-position,wrong-import-order
+
 from __future__ import print_function
 from builtins import str
 import csv
 import gzip
 import sys
+from traceback import format_exc
+
+from httplib2 import (socks, ProxyInfo, Http)
 
 try:
     from splunk.clilib.bundle_paths import make_splunkhome_path
@@ -12,14 +19,15 @@ except ImportError:
 # TODO: How does it depend on CIM module?
 sys.path.insert(0, make_splunkhome_path(["etc", "apps", "Splunk_SA_CIM", "lib"]))
 
-from cim_actions import ModularAction
-from logging_helper import get_logger
+from .cim_actions import ModularAction
+from .logging_helper import get_logger
 import logging
-from splunk_aoblib.rest_helper import TARestHelper
-from splunk_aoblib.setup_util import Setup_Util
+from splunk_aoblib.rest_helper import TARestHelper # pylint: disable=import-error
+from splunk_aoblib.setup_util import Setup_Util # pylint: disable=import-error
 
 
 class ModularAlertBase(ModularAction):
+    """ modular alert """
     def __init__(self, ta_name, alert_name):
         self._alert_name = alert_name
         # self._logger_name = "modalert_" + alert_name
@@ -37,24 +45,31 @@ class ModularAlertBase(ModularAction):
         self.rest_helper = TARestHelper(self._logger)
 
     def log_error(self, msg):
+        """ log an error """
         self.message(msg, 'failure', level=logging.ERROR)
 
     def log_info(self, msg):
+        """ info level message """
         self.message(msg, 'success', level=logging.INFO)
 
     def log_debug(self, msg):
+        """ debug log """
         self.message(msg, None, level=logging.DEBUG)
 
     def log_warn(self, msg):
+        """ log a warning """
         self.message(msg, None, level=logging.WARN)
 
     def set_log_level(self, level):
+        """ log configurator """
         self._logger.setLevel(level)
 
     def get_param(self, param_name):
+        """ config getter """
         return self.configuration.get(param_name)
 
     def get_global_setting(self, var_name):
+        """ setting getter """
         return self.setup_util.get_customized_setting(var_name)
 
     def get_user_credential(self, username):
@@ -69,13 +84,16 @@ class ModularAlertBase(ModularAction):
 
     @property
     def log_level(self):
+        """ welp """
         return self.get_log_level()
 
     @property
     def proxy(self):
+        """ this is so java """
         return self.get_proxy()
 
     def get_log_level(self):
+        """ blep """
         return self.setup_util.get_log_level()
 
     def get_proxy(self):
@@ -96,38 +114,60 @@ class ModularAlertBase(ModularAction):
         proxy = self.get_proxy()
         if proxy and proxy.get('proxy_url') and proxy.get('proxy_type'):
             uri = proxy['proxy_url']
-            if proxy.get('proxy_port'):
-                uri = '{0}:{1}'.format(uri, proxy.get('proxy_port'))
-            if proxy.get('proxy_username') and proxy.get('proxy_password'):
-                uri = '{0}://{1}:{2}@{3}/'.format(proxy['proxy_type'], proxy[
-                                                  'proxy_username'], proxy['proxy_password'], uri)
+            if "proxy_port" in proxy:
+                uri = f"{uri}:{proxy['proxy_port']}"
+            if "proxy_username" in proxy and proxy.get('proxy_password'):
+                uri = f"{proxy['proxy_type']}://{proxy['proxy_username']}:{proxy['proxy_password']}@{uri}/"
             else:
-                uri = '{0}://{1}'.format(proxy['proxy_type'], uri)
+                uri = f"{proxy['proxy_type']}://{uri}"
         return uri
 
-    def send_http_request(self, url, method, parameters=None, payload=None, headers=None, cookies=None, verify=True, cert=None, timeout=None, use_proxy=True):
-        return self.rest_helper.send_http_request(url=url, method=method, parameters=parameters, payload=payload,
-                                                  headers=headers, cookies=cookies, verify=verify, cert=cert,
-                                                  timeout=timeout,
-                                                  proxy_uri=self._get_proxy_uri() if use_proxy else None)
+    def send_http_request(
+        self,
+        url,
+        method,
+        parameters=None,
+        payload=None,
+        headers=None,
+        cookies=None,
+        verify=True,
+        cert=None,
+        timeout=None,
+        use_proxy=True,
+        ):
+        """ request sender """
+        return self.rest_helper.send_http_request(
+            url=url,
+            method=method,
+            parameters=parameters,
+            payload=payload,
+            headers=headers,
+            cookies=cookies,
+            verify=verify,
+            cert=cert,
+            timeout=timeout,
+            proxy_uri=self._get_proxy_uri() if use_proxy else None,
+        )
 
-    def build_http_connection(self, config, timeout=120,
-                              disable_ssl_validation=False):
-        from httplib2 import (socks, ProxyInfo, Http)
-        """
-        :config: dict like, proxy and account information are in the following
-                format {
-                    "username": xx,
-                    "password": yy,
-                    "proxy_url": zz,
-                    "proxy_port": aa,
-                    "proxy_username": bb,
-                    "proxy_password": cc,
-                    "proxy_type": http,http_no_tunnel,sock4,sock5,
-                    "proxy_rdns": 0 or 1,
-                }
-        :return: Http2.Http object
-        """
+    def build_http_connection(
+        self,
+        config,
+        timeout=30,
+        disable_ssl_validation=False,
+        ):
+        """ connection builder """
+        # :config: dict like, proxy and account information are in the following
+        #         format {
+        #             "username": xx,
+        #             "password": yy,
+        #             "proxy_url": zz,
+        #             "proxy_port": aa,
+        #             "proxy_username": bb,
+        #             "proxy_password": cc,
+        #             "proxy_type": http,http_no_tunnel,sock4,sock5,
+        #             "proxy_rdns": 0 or 1,
+        #         }
+        # :return: Http2.Http object
         if not config:
             config = {}
 
@@ -170,14 +210,17 @@ class ModularAlertBase(ModularAction):
         return http
 
     def process_event(self, *args, **kwargs):
-        raise NotImplemented()
+        """ event handler, not needed """
+        raise NotImplementedError()
 
     def pre_handle(self, num, result):
+        """ before things get handled, I guess?"""
         result.setdefault('rid', str(num))
         self.update(result)
         return result
 
     def get_events(self):
+        """ does what it says on the name"""
         try:
             try:
                 self.result_handle = gzip.open(self.results_file, 'rt')
@@ -190,24 +233,26 @@ class ModularAlertBase(ModularAction):
             sys.exit(2)
 
     def prepare_meta_for_cam(self):
+        """ not even sure """
         try:
             try:
-                rf = gzip.open(self.results_file, 'rt')
+                file_handle = gzip.open(self.results_file, 'rt')
             except ValueError: # Workaround for Python 2.7 on Windows
-                rf = gzip.open(self.results_file, 'r')
-            for num, result in enumerate(csv.DictReader(rf)):
+                file_handle = gzip.open(self.results_file, 'r')
+            for num, result in enumerate(csv.DictReader(file_handle)):
                 result.setdefault('rid', str(num))
                 self.update(result)
                 self.invoke()
                 break
         finally:
-            if rf:
-                rf.close()
+            if file_handle:
+                file_handle.close()
 
     def run(self, argv):
+        """ runner """
         status = 0
         if len(argv) < 2 or argv[1] != "--execute":
-            msg = 'Error: argv="{}", expected="--execute"'.format(argv)
+            msg = f'Error: argv="{argv}", expected="--execute"'
             print(msg, file=sys.stderr)
             sys.exit(1)
 
@@ -217,8 +262,8 @@ class ModularAlertBase(ModularAction):
             level = self.get_log_level()
             if level:
                 self._logger.setLevel(level)
-        except Exception as e:
-            if e and '403' in str(e):
+        except Exception as error: # pylint: disable=broad-except
+            if error and '403' in str(error):
                 self.log_error('User does not have permissions')
             else:
                 self.log_error('Unable to set log level')
@@ -230,13 +275,12 @@ class ModularAlertBase(ModularAction):
             msg = "Error: {}."
             self.log_error(msg.format("No search result. Cannot send alert action."))
             sys.exit(2)
-        except Exception as e:
+        except Exception as error: #pylint: disable=broad-except
             msg = "Unexpected error: {}."
-            if e:
-                self.log_error(msg.format(str(e)))
+            if error:
+                self.log_error(msg.format(str(error)))
             else:
-                import traceback
-                self.log_error(msg.format(traceback.format_exc()))
+                self.log_error(msg.format(format_exc()))
             sys.exit(2)
         finally:
             if self.result_handle:
