@@ -11,3 +11,4 @@ services:
       - SPLUNK_APPS_URL=https://github.com/yaleman/TA-pushover/releases/download/latest/TA-pushover.tgz
     ports:
       - "8000:8000"
+      - "8089:8089"
