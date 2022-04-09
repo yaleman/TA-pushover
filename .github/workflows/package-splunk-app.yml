@@ -23,6 +23,7 @@ jobs:
           python -m pip install ksconf
           find . -type f -name '*.conf' -exec ksconf check {} \;
           tar czf TA-pushover.tgz TA-pushover/
+
       - name: Publish release
         uses: SierraSoftworks/gh-releases@v1.0.4
         with:
@@ -30,3 +31,4 @@ jobs:
           overwrite: 'true'
           files: |
             TA-pushover.tgz
+          release_tag: 0.0.1
