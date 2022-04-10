@@ -110,7 +110,8 @@ class Pushover():
             self.api_url,
             json=message_payload,
             )
-        print(f"{message_send_response.content=}")
+        print("message send response content")
+        print(message_send_response.content)
         responsedata = message_send_response.json()
 
         if not "status" in responsedata:
