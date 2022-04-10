@@ -201,9 +201,13 @@ def coalesce(
     event_data: Dict[str,str],
     ) -> Optional[str]:
     """ coalesce dicts, order is event -> config -> None """
+    coalescelogger = logging.getLogger("coalesce")
+    coalescelogger.setLevel(logging.DEBUG)
     if event_data.get(key) is not None:
+        coalescelogger.debug("eventdata - %s = %s", key, event_data.get(key))
         return event_data[key]
     if coalesce_config.get(key) is not None:
+        coalescelogger.debug("configdata - %s = %s", key, event_data.get(key))
         return event_data[key]
     return None
 
