@@ -222,7 +222,7 @@ def send_pushover_alert(
         if "message" not in event:
             raise ValueError("You need to have a message field in each event.")
 
-        logger_class.info(f"event={event}")
+        logger_class.error(f"event={event}")
 
         if coalesce("html", event, event_config) is not None:
             html = bool(coalesce("html", event, event_config))
@@ -305,18 +305,18 @@ if __name__ == "__main__":
 
     application_token = get_password(splunkclient, "TA-pushover")
 
-    print("#"*50)
-    print("app config")
-    print(
+    logger.error("#"*50)
+    logger.error("app config")
+    logger.error(
         json.dumps(
             app_config,
             indent=4,
             default=str,
         )
     )
-    print("#"*50)
-    print("events")
-    print(
+    logger.error("#"*50)
+    logger.error("events")
+    logger.error(
         json.dumps(
             config["result"],
             indent=4,
@@ -331,7 +331,7 @@ if __name__ == "__main__":
     else:
         raise ValueError(f"config['result'] is not either a list or dict, it's a {type(config['result'])}: {config['result']}")
 
-    print("#"*50)
+    logger.error("#"*50)
     send_pushover_alert(
         logger,
         app_config["user_key"],
