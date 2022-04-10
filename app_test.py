@@ -112,7 +112,7 @@ def main():
         "output_mode" : 'json',
     }
     alert_job = splunk.jobs.oneshot(
-        '| makeresults 1 | eval message="hello world" | sendalert pushover',
+        '| makeresults 1 | eval message="TA-pushover test message", title="TA-pushover test title", url="https://google.com", priority=1 | sendalert pushover',
         **search_config
     )
     print_results(alert_job)

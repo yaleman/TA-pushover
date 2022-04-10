@@ -104,18 +104,19 @@ class Pushover():
 
         self.check_lengths(message_payload)
 
-        response = requests.post(
+        print(f"{json.dumps(message_payload, default=str)=}")
+
+        message_send_response = requests.post(
             self.api_url,
             json=message_payload,
             )
-        print(response.content)
-        responsedata = response.json()
+        print(f"{message_send_response.content=}")
+        responsedata = message_send_response.json()
 
         if not "status" in responsedata:
             raise ValueError(f"status not returned in response to m essage: {responsedata}")
         if responsedata["status"] != 1 and responsedata["status"] != "1":
             raise ValueError(f"Status code returned from API was: '{responsedata['status']}'")
-        raise NotImplementedError
 
 def pull_config(
     service: client.Service,
