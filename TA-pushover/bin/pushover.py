@@ -6,7 +6,7 @@ import json
 import logging
 from ssl import SSLCertVerificationError
 import sys
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 from urllib.parse import urlparse
 import requests
@@ -77,7 +77,7 @@ class Pushover():
         """ validates the priority field """
         if priority_value is not None:
             # priority needs to be between -2 and 2
-            if (-2 < priority_value  < 2) is False:
+            if (-2 <= priority_value  <= 2) is False:
                 raise ValueError("Priority needs to be between -2 and 2")
             content["priority"] = str(priority_value)
 
@@ -92,7 +92,7 @@ class Pushover():
         html: bool=False,
         monospace: bool=False,
         device: Optional[str]=None,
-        sound: Optional[str]=None,
+        sound: str="none",
         timestamp: Optional[int]=None,
         title: Optional[str]=None,
         url: Optional[str]=None,
@@ -107,33 +107,35 @@ class Pushover():
             "user" : user,
             "message" :  message,
         }
+        if sound != "_" and sound is not None:
+            message_payload["sound"]=sound
+
         if device is not None:
             message_payload["device"] = device
-        if sound is not None:
-            message_payload["sound"] = sound
         if timestamp is not None:
             message_payload["timestamp"] = str(timestamp)
         if title is not None:
             message_payload["title"] = title
+
         if url is not None:
             message_payload["url"] = url
-        if url_title is not None:
-            message_payload["url_title"] = url_title
+            # only set the url title if there's a URL
+            if url_title is not None:
+                message_payload["url_title"] = url_title
 
         self.validate_priority(message_payload, priority)
         self.validate_msg_format(message_payload, html, monospace)
         self.check_lengths(message_payload)
 
-        print(f"event message payload: {json.dumps(message_payload, default=str)}", file=sys.stderr)
+        logger.debug(f"event message payload: {json.dumps(message_payload, default=str)}")
 
         message_send_response = requests.post(
             self.api_url,
             json=message_payload,
             )
-        print("message send response content", file=sys.stderr)
-        print(message_send_response.content, file=sys.stderr)
-        responsedata = message_send_response.json()
+        logger.info("message send response content: %s", message_send_response.content)
 
+        responsedata = message_send_response.json()
         if not "status" in responsedata:
             raise ValueError(f"status not returned in response to m essage: {responsedata}")
         if responsedata["status"] != 1 and responsedata["status"] != "1":
@@ -160,7 +162,7 @@ def pull_config(
             for element in response_dict["entry"]:
                 configdata[element["name"]] = element["content"]
     except json.JSONDecodeError as json_error:
-        log_class.error(json_error)
+        log_class.error("error when JSON decoding configuration pulled from Splunk REST API: %s", json_error)
         sys.exit(1)
     return configdata
 
@@ -185,31 +187,30 @@ def get_password(
                     password_data = json.loads(entry["content"]["clear_password"])
                     return password_data["application_token"]
     except json.JSONDecodeError as json_error:
-        print(
+        logger.error("JSONDecodeError handling REST call to storage/passwords: %s",
             json_error,
-            file=sys.stderr,
         )
-    print(
+    logger.error(
         "Failed to pull application_token from password storage, bailing.",
-        file=sys.stderr,
     )
-    sys.exit(1)
+    return sys.exit(1)
 
 def coalesce(
     key:str,
-    coalesce_config: Dict[str,str],
     event_data: Dict[str,str],
+    app_data: Dict[str,str],
+    default_value: Optional[str] = None
     ) -> Optional[str]:
     """ coalesce dicts, order is event -> config -> None """
     coalescelogger = logging.getLogger("coalesce")
     coalescelogger.setLevel(logging.DEBUG)
     if event_data.get(key) is not None:
-        coalescelogger.error("eventdata - %s = %s", key, event_data.get(key))
+        coalescelogger.debug("eventdata - %s = '%s'", key, event_data.get(key))
         return event_data[key]
-    if coalesce_config.get(key) is not None:
-        coalescelogger.error("configdata - %s = %s", key, event_data.get(key))
-        return event_data[key]
-    return None
+    if app_data.get(key) is not None:
+        coalescelogger.debug("configdata - %s = '%s'", key, app_data.get(key))
+        return app_data[key]
+    return default_value
 
 # pylint: disable=too-many-arguments
 def send_pushover_alert(
@@ -217,77 +218,66 @@ def send_pushover_alert(
     user_key: str,
     app_token: str,
     event_config: Dict[str, str],
-    events: List[Dict[str, Any]]
+    event: Dict[str, Any]
     ) -> None:
     """ bleep bloop """
     logger_class.info("Alert action pushover started.")
 
-    for event in events:
-        if "message" not in event:
-            raise ValueError("You need to have a message field in each event.")
+    if "message" not in event:
+        raise ValueError("You need to have a message field in each event.")
 
-        logger_class.error(f"event={event}")
+    logger_class.error(f"event={event}")
 
-        if coalesce("html", event, event_config) is not None:
-            html = bool(coalesce("html", event, event_config))
-        else:
-            html= False
-        if coalesce("monospace", event, event_config) is not None:
-            monospace = bool(coalesce("monospace", event, event_config))
-        else:
-            monospace = False
+    html= False
+    if coalesce("html", event, event_config) is not None:
+        html = bool(coalesce("html", event, event_config))
+    monospace = False
+    if coalesce("monospace", event, event_config) is not None:
+        monospace = bool(coalesce("monospace", event, event_config))
 
-        tval = coalesce("timestamp", event, event_config)
-        if tval is not None:
-            timestamp = int(tval)
-        else:
-            timestamp = None
+    tval = coalesce("timestamp", event, event_config)
+    timestamp = int(tval) if tval is not None else None
 
-        prival = coalesce("priority", event, event_config)
-        if prival is None or prival == "":
-            logger.error("setting priority to 0")
-            priority = 0
-        else:
-            logger.error(f"Setting priority to int({prival})")
-            priority = int(prival)
+    prival = coalesce("priority", event, event_config)
+    if prival is None or prival == "":
+        logger.debug("setting priority to 0")
+        priority = 0
+    else:
+        logger.debug(f"Setting priority to int({prival})")
+        priority = int(prival)
 
-        Pushover().send(
-            token=app_token,
-            user=user_key,
-            message=event["message"],
-            priority=priority,
-            html=html,
-            monospace=monospace,
-            device=coalesce("device_name", event, event_config),
-            sound=coalesce("sound", event, event_config),
-            timestamp=timestamp,
-            title=coalesce("title", event, event_config),
-            url=coalesce("additional_url", event, event_config),
-            url_title=coalesce("url_title", event, event_config),
-        )
+    Pushover().send(
+        token=app_token,
+        user=user_key,
+        message=event["message"],
+        priority=priority,
+        html=html,
+        monospace=monospace,
+        device=coalesce("device_name", event, event_config),
+        sound=str(coalesce("sound", event, event_config, "none")),
+        timestamp=timestamp,
+        title=coalesce("title", event, event_config),
+        url=coalesce("url", event, event_config),
+        url_title=coalesce("url_title", event, event_config),
+    )
 
 if __name__ == "__main__":
+    # setup logging
     logger = logging.getLogger(
         "TA-pushover"
         )
     logger.setLevel(logging.DEBUG)
     for value in sys.argv:
-        logger.error(f"argv: {value}")
-    stdin = sys.stdin.read()
+        logger.debug(f"argv: {value}")
 
-    logger.error(f"stdin: {json.dumps(stdin)}")
+    # config data and results
+    stdin = sys.stdin.read()
+    logger.debug(f"stdin: {json.dumps(stdin)}")
 
     config = json.loads(stdin)
 
-    headers = {
-        "Authorization" : f"Bearer {config['session_key']}",
-    }
-
+    # connect to the REST API to pull app config data
     parsed_url = urlparse(config["server_uri"])
-
-
-    print("dumping global config")
-
     try:
         splunkclient = client.connect(
             host=parsed_url.hostname,
@@ -296,8 +286,9 @@ if __name__ == "__main__":
             token=config["session_key"]
 
         )
+    # if it fails SSL verification, fall back
     except SSLCertVerificationError:
-        print("Failed to connect, ssl verification error")
+        logger.debug("Failed to connect to REST API (%s), ssl verification error", config["server_uri"])
         splunkclient = client.connect(
             host=parsed_url.hostname,
             port=parsed_url.port,
@@ -311,21 +302,20 @@ if __name__ == "__main__":
         config["app"],
         logger,
     )
-
     application_token = get_password(splunkclient, "TA-pushover")
 
-    logger.error("#"*50)
-    logger.error("app config")
-    logger.error(
+    logger.debug("#"*50)
+    logger.debug("app config")
+    logger.debug(
         json.dumps(
             app_config,
             indent=4,
             default=str,
         )
     )
-    logger.error("#"*50)
-    logger.error("events")
-    logger.error(
+    logger.debug("#"*50)
+    logger.debug("events")
+    logger.debug(
         json.dumps(
             config["result"],
             indent=4,
@@ -333,40 +323,10 @@ if __name__ == "__main__":
         )
     )
 
-    if isinstance(config["result"], list):
-        events_list = config["result"]
-    elif isinstance(config["result"], dict):
-        events_list = [config["result"],]
-    else:
-        raise ValueError(f"config['result'] is not either a list or dict, it's a {type(config['result'])}: {config['result']}")
-
-    logger.error("#"*50)
     send_pushover_alert(
         logger,
         app_config["user_key"],
         app_token=application_token,
         event_config=config["configuration"],
-        events=events_list,
+        event=config["result"],
     )
-
-# stdin: {
-# "app":"TA-pushover",
-# "owner":"admin",
-# "results_file":"/opt/splunk/var/run/splunk/dispatch/scheduler__admin_VEEtcHVzaG92ZXI__spam_at_1649498040_4/sendalert_temp_results.csv.gz",
-# "results_link":"http://22072aa942a9:8000/app/TA-pushover/@go?sid=scheduler__admin_VEEtcHVzaG92ZXI__spam_at_1649498040_4",
-# "search_uri":"/servicesNS/admin/TA-pushover/saved/searches/spam",
-# "server_host": "22072aa942a9",
-# "server_uri": "https://127.0.0.1:8089",
-# "session_key": "aYAUg6hQDWJyV_UuSlXWEsgwUhFE5UasbI1vzUSiaV8DZAu7aah49lrZog^BxMgcUmIj6fe8p6wPxcA7DfUo6LgZk5g^z^VV2ePsbtBNpKGG7zr4QrdNSIVgxTQ9aOE6rGlv^CpDLMzRDsF1BmU0zNmaQDuF3S9VmZSMnG_Dm_kySo",
-# "sid":"scheduler__admin_VEEtcHVzaG92ZXI__spam_at_1649498040_4",
-# "search_name":"spam",
-# "configuration":{
-#   "additional_url":"additional_url",
-#   "message":"Message - hello world",
-#   "priority":"0",
-#   "sound":"_",
-#   "title":"title",
-#   "url_title":"URL"
-# },
-# "result":{"_time":"1649498041","message":"hello world"}}
-    # sys.exit(AlertActionWorkerpushover("TA-pushover", "pushover").run(sys.argv))

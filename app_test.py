@@ -6,6 +6,7 @@ import json
 import logging
 from pathlib import Path
 import sys
+from time import sleep
 from typing import Optional, TypedDict
 
 from splunklib import client
@@ -69,6 +70,18 @@ def get_baseurl(config: ConfigFile) -> str:
     return f"http://{config['splunk_hostname']}:{config['splunk_port']}"
 
 
+# def install_configexplorer(
+#     config: ConfigFile,
+#     splunk: client,
+#     ) -> None:
+#     """ installs configexplorer """
+#     #URL: http://hostname:8000/en-GB/manager/appinstall/_upload
+#     params = {
+#         "force" : 1,
+#         "appfile" : None #  file upload
+#     }
+
+
 def print_results(results_object) -> None:
     """ printer """
     results = JSONResultsReader(results_object)
@@ -112,20 +125,28 @@ def main():
         "output_mode" : 'json',
     }
     alert_job = splunk.jobs.oneshot(
-        '| makeresults 1 | eval message="TA-pushover test message", title="TA-pushover test title", url="https://google.com", priority=1 | sendalert pushover',
+        '''| makeresults
+        | eval message="Please delete, sent at "+strftime(_time,"%Y-%m-%d %H:%M:%S %Z"), title="TA-pushover test"
+        | eval url_title="hello", url="https://google.com", priority=-1, sound="none"
+        | sendalert pushover
+        ''',
         **search_config
     )
     print_results(alert_job)
 
+    print("Waiting a few seconds...")
+    sleep(3)
+
+    print("Pulling internal logs")
     job = splunk.jobs.export(
-        """
+        '''
 search index=_internal source=*/splunkd.log OR sourcetype=splunk_search_messages
 NOT TERM(TailReader)
 NOT "*splunk-dashboard-studio*" TERM(ExecProcessor)  OR TERM(SearchMessages)
 NOT TERM(cron) NOT "New scheduled exec process" NOT "*IntrospectionGenerator*"
+NOT "interval: run once" NOT "interval: * ms"
 | sort _time
-
-""",
+'''
         **search_config
     )
 
