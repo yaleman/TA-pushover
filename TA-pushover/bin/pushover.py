@@ -204,10 +204,10 @@ def coalesce(
     coalescelogger = logging.getLogger("coalesce")
     coalescelogger.setLevel(logging.DEBUG)
     if event_data.get(key) is not None:
-        coalescelogger.debug("eventdata - %s = %s", key, event_data.get(key))
+        coalescelogger.error("eventdata - %s = %s", key, event_data.get(key))
         return event_data[key]
     if coalesce_config.get(key) is not None:
-        coalescelogger.debug("configdata - %s = %s", key, event_data.get(key))
+        coalescelogger.error("configdata - %s = %s", key, event_data.get(key))
         return event_data[key]
     return None
 
@@ -244,10 +244,11 @@ def send_pushover_alert(
             timestamp = None
 
         prival = coalesce("priority", event, event_config)
-        if prival is None:
+        if prival is None or prival == "":
             logger.error("setting priority to 0")
             priority = 0
         else:
+            logger.error(f"Setting priority to int({prival})")
             priority = int(prival)
 
         Pushover().send(
@@ -271,10 +272,10 @@ if __name__ == "__main__":
         )
     logger.setLevel(logging.DEBUG)
     for value in sys.argv:
-        logger.debug(f"argv: {value}")
+        logger.error(f"argv: {value}")
     stdin = sys.stdin.read()
 
-    logger.debug(f"stdin: {json.dumps(stdin)}")
+    logger.error(f"stdin: {json.dumps(stdin)}")
 
     config = json.loads(stdin)
 
