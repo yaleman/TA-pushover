@@ -104,7 +104,7 @@ class Pushover():
 
         self.check_lengths(message_payload)
 
-        print(f"{json.dumps(message_payload, default=str)=}")
+        print(f"event message payload: {json.dumps(message_payload, default=str)}")
 
         message_send_response = requests.post(
             self.api_url,
