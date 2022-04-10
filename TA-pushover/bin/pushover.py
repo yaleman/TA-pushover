@@ -1,5 +1,7 @@
 """ pushover alert action for splunk """
 
+#pylint: disable=logging-fstring-interpolation
+
 import json
 import logging
 from ssl import SSLCertVerificationError
@@ -51,6 +53,34 @@ class Pushover():
             if key_value in message_payload and len(str(message_payload[key_value])) > max_length:
                 raise ValueError(f"Length of {key_value} is too long {len(str(message_payload[key_value]))} > {max_length}")
 
+    @classmethod
+    def validate_msg_format(
+        cls,
+        content: Dict[str, str],
+        html_value: bool,
+        monospace_value: bool,
+        ) -> None:
+        """ validates the html and monospace fields """
+        if monospace_value and html_value:
+            raise ValueError("You need to set either monospace or html, not both")
+        if monospace_value:
+            content["monospace"] = "1"
+        if html_value:
+            content["html"] = "1"
+
+    @classmethod
+    def validate_priority(
+        cls,
+        content: Dict[str, str],
+        priority_value: Optional[int]=None,
+        ) -> None:
+        """ validates the priority field """
+        if priority_value is not None:
+            # priority needs to be between -2 and 2
+            if (-2 < priority_value  < 2) is False:
+                raise ValueError("Priority needs to be between -2 and 2")
+            content["priority"] = str(priority_value)
+
     #pylint: disable=too-many-arguments,too-many-branches,too-many-locals
     def send(
         self,
@@ -89,29 +119,19 @@ class Pushover():
             message_payload["url"] = url
         if url_title is not None:
             message_payload["url_title"] = url_title
-        # priority needs to be between -2 and 2
-        if priority is not None:
-            if (-2 < priority  < 2) is False:
-                raise ValueError("Priority needs to be between -2 and 2")
-            message_payload["priority"] = str(priority)
 
-        if monospace and html:
-            raise ValueError("You need to set either monospace or html, not both")
-        if monospace:
-            message_payload["monospace"] = "1"
-        if html:
-            message_payload["html"] = "1"
-
+        self.validate_priority(message_payload, priority)
+        self.validate_msg_format(message_payload, html, monospace)
         self.check_lengths(message_payload)
 
-        print(f"event message payload: {json.dumps(message_payload, default=str)}")
+        print(f"event message payload: {json.dumps(message_payload, default=str)}", file=sys.stderr)
 
         message_send_response = requests.post(
             self.api_url,
             json=message_payload,
             )
-        print("message send response content")
-        print(message_send_response.content)
+        print("message send response content", file=sys.stderr)
+        print(message_send_response.content, file=sys.stderr)
         responsedata = message_send_response.json()
 
         if not "status" in responsedata:
@@ -122,6 +142,7 @@ class Pushover():
 def pull_config(
     service: client.Service,
     app: str,
+    log_class: logging.Logger,
     ) -> Dict[str, str]:
     """ pulls the config from the app endpoint """
     response = service.request(
@@ -139,7 +160,7 @@ def pull_config(
             for element in response_dict["entry"]:
                 configdata[element["name"]] = element["content"]
     except json.JSONDecodeError as json_error:
-        print(json_error)
+        log_class.error(json_error)
         sys.exit(1)
     return configdata
 
@@ -164,9 +185,10 @@ def get_password(
                     password_data = json.loads(entry["content"]["clear_password"])
                     return password_data["application_token"]
     except json.JSONDecodeError as json_error:
-        print(json_error)
-        print("Failed to pull application_token from password storage, bailing.")
-        sys.exit(1)
+        print(
+            json_error,
+            file=sys.stderr,
+        )
     print(
         "Failed to pull application_token from password storage, bailing.",
         file=sys.stderr,
@@ -241,10 +263,10 @@ def send_pushover_alert(
 if __name__ == "__main__":
     logger = logging.getLogger("TA-pushover")
     for value in sys.argv:
-        print(f"argv: {value}", file=sys.stderr)
+        logger.debug(f"argv: {value}")
     stdin = sys.stdin.read()
 
-    print(f"stdin: {json.dumps(stdin)}", file=sys.stderr)
+    logger.debug(f"stdin: {json.dumps(stdin)}")
 
     config = json.loads(stdin)
 
@@ -278,6 +300,7 @@ if __name__ == "__main__":
     app_config = pull_config(
         splunkclient,
         config["app"],
+        logger,
     )
 
     application_token = get_password(splunkclient, "TA-pushover")
