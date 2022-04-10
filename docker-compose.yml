@@ -12,9 +12,3 @@ services:
     ports:
       - "8000:8000"
       - "18089:8089"
-    volumes:
-      - "splunk:/opt"
-
-
-volumes:
-  splunk:
