@@ -113,7 +113,7 @@ class Pushover():
 
         if not "status" in responsedata:
             raise ValueError(f"status not returned in response to m essage: {responsedata}")
-        if responsedata["status"] != 1 or responsedata["status"] != "1":
+        if responsedata["status"] != 1 and responsedata["status"] != "1":
             raise ValueError(f"Status code returned from API was: '{responsedata['status']}'")
         raise NotImplementedError
 
@@ -171,6 +171,18 @@ def get_password(
     )
     sys.exit(1)
 
+def coalesce(
+    key:str,
+    coalesce_config: Dict[str,str],
+    event_data: Dict[str,str],
+    ) -> Optional[str]:
+    """ coalesce dicts, order is event -> config -> None """
+    if key in event_data:
+        return event_data[key]
+    if key in coalesce_config:
+        return event_data[key]
+    return None
+
 # pylint: disable=too-many-arguments
 def send_pushover_alert(
     logger_class: logging.Logger,
@@ -179,46 +191,8 @@ def send_pushover_alert(
     event_config: Dict[str, str],
     events: List[Dict[str, Any]]
     ) -> None:
-    """
-    # The following example gets the setup parameters and prints them to the log
-    user_key = helper.get_global_setting("user_key")
-    logger.info("user_key={}".format(user_key))
-    application_token = helper.get_global_setting("application_token")
-    logger.info("application_token={}".format(application_token))
-    device_name = helper.get_global_setting("device_name")
-    logger.info("device_name={}".format(device_name))
-
-    # The following example gets the alert action parameters and prints them to the log
-    message = helper.get_param("message")
-    logger.info("message={}".format(message))
-
-    title = helper.get_param("title")
-    logger.info("title={}".format(title))
-
-    additional_url = helper.get_param("additional_url")
-    logger.info("additional_url={}".format(additional_url))
-
-    url_title = helper.get_param("url_title")
-    logger.info("url_title={}".format(url_title))
-
-    priority = helper.get_param("priority")
-    logger.info("priority={}".format(priority))
-
-    sound = helper.get_param("sound")
-    logger.info("sound={}".format(sound))
-    """
-
+    """ bleep bloop """
     logger_class.info("Alert action pushover started.")
-
-
-    def coalesce(key:str, coalesce_config: Dict[str,str], event_data: Dict[str,str]) -> Optional[str]:
-        """ coalesce dicts, order is event -> config -> None """
-        if key in event_data:
-            return event_data[key]
-        if key in coalesce_config:
-            return event_data[key]
-        return None
-
 
     for event in events:
         if "message" not in event:
