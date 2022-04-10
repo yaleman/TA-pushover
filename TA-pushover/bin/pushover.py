@@ -307,6 +307,7 @@ if __name__ == "__main__":
     application_token = get_password(splunkclient, "TA-pushover")
 
     print("#"*50)
+    print("app config")
     print(
         json.dumps(
             app_config,
@@ -315,12 +316,29 @@ if __name__ == "__main__":
         )
     )
     print("#"*50)
+    print("events")
+    print(
+        json.dumps(
+            config["result"],
+            indent=4,
+            default=str,
+        )
+    )
+
+    if isinstance(config["result"], list):
+        events_list = config["result"]
+    elif isinstance(config["result"], dict):
+        events_list = [config["result"],]
+    else:
+        raise ValueError(f"config['result'] is not either a list or dict, it's a {type(config['result'])}: {config['result']}")
+
+    print("#"*50)
     send_pushover_alert(
         logger,
         app_config["user_key"],
         app_token=application_token,
         event_config=config["configuration"],
-        events=config["result"],
+        events=events_list,
     )
 
 # stdin: {
