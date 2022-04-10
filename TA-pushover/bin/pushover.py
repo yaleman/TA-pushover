@@ -201,9 +201,9 @@ def coalesce(
     event_data: Dict[str,str],
     ) -> Optional[str]:
     """ coalesce dicts, order is event -> config -> None """
-    if key in event_data:
+    if event_data.get(key) is not None:
         return event_data[key]
-    if key in coalesce_config:
+    if coalesce_config.get(key) is not None:
         return event_data[key]
     return None
 
@@ -241,6 +241,7 @@ def send_pushover_alert(
 
         prival = coalesce("priority", event, event_config)
         if prival is None:
+            logger.error("setting priority to 0")
             priority = 0
         else:
             priority = int(prival)
@@ -261,7 +262,10 @@ def send_pushover_alert(
         )
 
 if __name__ == "__main__":
-    logger = logging.getLogger("TA-pushover")
+    logger = logging.getLogger(
+        "TA-pushover"
+        )
+    logger.setLevel(logging.DEBUG)
     for value in sys.argv:
         logger.debug(f"argv: {value}")
     stdin = sys.stdin.read()
