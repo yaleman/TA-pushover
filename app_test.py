@@ -6,9 +6,10 @@ import json
 import logging
 from pathlib import Path
 import sys
-from typing import TypedDict
+from typing import Optional, TypedDict
 
 from splunklib import client
+# from splunklib.binding import ResponseReader
 from splunklib.results import JSONResultsReader, Message
 
 class ConfigFile(TypedDict):
@@ -20,7 +21,7 @@ class ConfigFile(TypedDict):
 
     pushover_user_key: str
     pushover_application_token: str
-    pushover_device_name: str
+    pushover_device_name: Optional[str]
 
 def load_config() -> ConfigFile:
     """ loads config, funnily enough """
@@ -45,8 +46,10 @@ def configure_app(
             'output_mode': 'json',
             'user_key': config['pushover_user_key'],
             'application_token': config['pushover_application_token'],
-            'device_name': config['pushover_device_name'],
         }
+    if "pushover_device_name" in config and config["pushover_device_name"] is not None:
+        app_config_data["device_name"] = config["pushover_device_name"]
+
     app = splunk.post(
         "/servicesNS/nobody/TA-pushover/TA_pushover_settings/additional_parameters",
         body=app_config_data,
@@ -61,11 +64,10 @@ def configure_app(
 
     logger.info("Successfully configured the Pushover app!")
 
-
-
 def get_baseurl(config: ConfigFile) -> str:
     """ bas url """
     return f"http://{config['splunk_hostname']}:{config['splunk_port']}"
+
 
 def print_results(results_object) -> None:
     """ printer """
@@ -77,6 +79,7 @@ def print_results(results_object) -> None:
         else:
             print(result.get("_raw"))
 
+
 def main():
     """ main function """
 
@@ -85,7 +88,6 @@ def main():
     logger = logging.getLogger("mechanize")
     logger.addHandler(logging.StreamHandler(sys.stdout))
     logger.setLevel(logging.DEBUG)
-
 
 
     splunk = client.connect(
@@ -97,6 +99,7 @@ def main():
         scheme="https",
         # verify=True,
     )
+
     print("Login ok")
 
     configure_app(configuration, splunk, logger)
