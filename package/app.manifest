@@ -1,0 +1,51 @@
+{
+    "schemaVersion": "2.0.0",
+    "info": {
+        "title": "TA-pushover",
+        "id": {
+            "group": null,
+            "name": "TA-pushover",
+            "version": "1.0.0"
+        },
+        "author": [
+            {
+                "name": "James Hodgkinson",
+                "email": "james@terminaloutcomes.com",
+                "company": "Terminal Outcomes"
+            }
+        ],
+        "releaseDate": null,
+        "description": "TA-pushover",
+        "classification": {
+            "intendedAudience": "IT Professionals",
+            "categories": [
+                "Alerting"
+            ],
+            "developmentStatus": "Beta/Shenanigans"
+        },
+        "commonInformationModels": null,
+        "license": {
+            "name": "MIT",
+            "text": null,
+            "uri": null
+        },
+        "privacyPolicy": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "releaseNotes": {
+            "name": "README",
+            "text": "README.md",
+            "uri": null
+        }
+    },
+    "supportedDeployments": [
+        "_standalone",
+        "_distributed",
+        "_search_head_clustering"
+    ],
+    "targetWorkloads": [
+        "_search_heads"
+    ]
+}

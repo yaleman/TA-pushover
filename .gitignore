@@ -8,3 +8,4 @@ config.py
 dist/
 .env
 build/
+output/

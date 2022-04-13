@@ -1,3 +1,0 @@
-kintyre-splunk-conf
-pylint
-pytest

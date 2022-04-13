@@ -10,6 +10,7 @@ python = "^3.7"
 requests = "^2.27.1"
 httplib2 = "^0.20.4"
 solnlib = "^4.6.0"
+splunktaucclib = "^6.0.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.13.5"
@@ -24,6 +25,7 @@ types-simplejson = "^3.17.4"
 types-certifi = "^2021.10.8"
 mechanize = "^0.4.7"
 ksconf = "^0.10.0-beta.3"
+splunk-add-on-ucc-framework = "^5.10.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

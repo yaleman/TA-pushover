@@ -22,7 +22,7 @@ jobs:
           python --version
           python -m pip install ksconf
           find . -type f -name '*.conf' -exec ksconf check {} \;
-          tar czf TA-pushover.tgz TA-pushover/
+          tar czf TA-pushover.tgz -C output TA-pushover/
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
