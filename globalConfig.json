@@ -961,8 +961,7 @@
                     "endpoint"
                 ],
                 "category": [
-                    "Information Conveyance",
-                    "Information Portrayal"
+                    "Information Conveyance"
                 ],
                 "technology": [
                     {
@@ -979,9 +978,8 @@
             "entity": [
                 {
                     "type": "text",
-                    "label": "Name",
-                    "field": "name",
-                    "defaultValue": "xyz",
+                    "label": "Message",
+                    "field": "message",
                     "required": true,
                     "help": "Please enter your name"
                 },
