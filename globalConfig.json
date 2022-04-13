@@ -984,6 +984,25 @@
                     "help": "Please enter your name"
                 },
                 {
+                    "type": "text",
+                    "label": "Alert Title",
+                    "field": "title",
+                    "required": false
+                },
+                {
+                    "type": "text",
+                    "label": "Additional URL",
+                    "field": "url",
+                    "required": false
+                },
+                {
+                    "type": "text",
+                    "label": "URL Display Text",
+                    "field": "url_title",
+                    "required": false,
+                    "help": "If unset, the URL will be displayed."
+                },
+                {
                     "type": "checkbox",
                     "label": "All Incidents",
                     "field": "all_incidents",
@@ -993,23 +1012,35 @@
                 },
                 {
                     "type": "singleSelect",
-                    "label": "Table List",
+                    "label": "Priority",
                     "field": "table_list",
                     "options": {
                         "items": [
                             {
-                                "value": "Incident",
-                                "label": "incident"
+                                "value": "No notification or alert",
+                                "label": "-2"
                             },
                             {
-                                "value": "Problem",
-                                "label": "problem"
+                                "value": "Quiet",
+                                "label": "-1"
+                            },
+                            {
+                                "value": "Default",
+                                "label": "0"
+                            },
+                            {
+                                "value": "High priority",
+                                "label": "1"
+                            },
+                            {
+                                "value": "High priority w/confirmation",
+                                "label": "2"
                             }
                         ]
                     },
-                    "help": "Please select the table",
-                    "required": false,
-                    "defaultValue": "problem"
+                    "help": "Please select the priority",
+                    "required": true,
+                    "defaultValue": "0"
                 },
                 {
                     "type": "radio",
