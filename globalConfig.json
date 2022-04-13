@@ -1151,26 +1151,6 @@
                     "defaultValue": ""
                 },
                 {
-                    "type": "radio",
-                    "label": "Action:",
-                    "field": "action",
-                    "options": {
-                        "items": [
-                            {
-                                "value": "Update",
-                                "label": "update"
-                            },
-                            {
-                                "value": "Delete",
-                                "label": "delete"
-                            }
-                        ]
-                    },
-                    "help": "Select the action you want to perform",
-                    "required": true,
-                    "defaultValue": "two"
-                },
-                {
                     "type": "singleSelectSplunkSearch",
                     "label": "Select Account",
                     "field": "account",
