@@ -42,7 +42,7 @@
                                 "placeholder": "Required"
                             },
                             "field": "name",
-                            "help": "Enter a unique name for this account.",
+                            "help": "Enter a unique name for this app/user combination.",
                             "required": true
                         },
                         {
@@ -73,18 +73,23 @@
                         },
                         {
                             "type": "text",
-                            "label": "Endpoint URL",
-                            "help": "Enter the endpoint URL.",
-                            "field": "endpoint",
+                            "label": "Pushover Application",
+                            "help": "Enter the Application Token.",
+                            "field": "app_token",
                             "options": {
                                 "display": false
-                            }
+                            },
+                            "required": true
                         },
                         {
-                            "type": "checkbox",
-                            "label": "Example Checkbox",
-                            "field": "account_checkbox",
-                            "help": "This is an example checkbox for the account entity"
+                            "type": "text",
+                            "label": "User Key",
+                            "help": "Enter the user key.",
+                            "field": "user",
+                            "options": {
+                                "display": true
+                            },
+                            "required": true
                         },
                         {
                             "type": "radio",
