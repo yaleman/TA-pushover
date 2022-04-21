@@ -247,8 +247,8 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "mechanize"
-version = "0.4.7"
-description = "Stateful programmatic web browsing."
+version = "0.4.8"
+description = "Stateful, programmatic web browsing"
 category = "dev"
 optional = false
 python-versions = "*"
@@ -257,7 +257,9 @@ python-versions = "*"
 html5lib = ">=0.999999999"
 
 [package.extras]
+binarytest = ["lxml", "html5-parser"]
 fast = ["html5-parser (>=0.4.4)"]
+test = ["twisted", "service-identity", "six", "html5lib"]
 
 [[package]]
 name = "mypy"
@@ -581,7 +583,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "ee384d3ff076adbd3c218ee46bd38d3fa12ab075ed161ffe71e23082b43ecadf"
+content-hash = "c0eb1c813d4c8c9615bb722fb175f1dc0695e7c4ff5a38da4db40f41d51db4c9"
 
 [metadata.files]
 astroid = [
@@ -784,8 +786,8 @@ mccabe = [
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
 ]
 mechanize = [
-    {file = "mechanize-0.4.7-py2.py3-none-any.whl", hash = "sha256:427e9e15f1335b387cd2b17e41c946f23d0fcbd313792731f86fe0fa3d32b1a6"},
-    {file = "mechanize-0.4.7.tar.gz", hash = "sha256:1773a8f5818398e0010e781dc0f942cd88b107a57424c904d545cd827c216809"},
+    {file = "mechanize-0.4.8-py2.py3-none-any.whl", hash = "sha256:961fd171b5eb37a7578fce62ba81ba85803dff3c5ba4ac24f6f569ae27198439"},
+    {file = "mechanize-0.4.8.tar.gz", hash = "sha256:5e86ac0777357e006eb04cd28f7ed9f811d48dffa603d3891ac6d2b92280dc91"},
 ]
 mypy = [
     {file = "mypy-0.942-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:5bf44840fb43ac4074636fd47ee476d73f0039f4f54e86d7265077dc199be24d"},
