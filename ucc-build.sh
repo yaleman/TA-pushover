@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-	echo "Usage: ucc-build.sh [--build]"
+	echo "Usage: ucc-build.sh [--package]"
 	echo ""
 	echo "Regenerates the UCC app files."
 	echo ""
 	echo "  Options:"
 	echo ""
-	echo "  --build    Build the .tgz package"
+	echo "  --package  Build the .spl package"
 	echo "  --help     Show this help"
 	echo ""
 	exit
@@ -25,7 +25,7 @@ poetry run ucc-gen \
 
 if [ "$1" == "--package" ]; then
 	echo "Compressing package..."
-	COPYFILE_DISABLE=1 tar czf TA-pushover.tgz -C output/ "${APP_DIR}"
+	COPYFILE_DISABLE=1 tar czf TA-pushover.spl -C output/ "${APP_DIR}"
 	echo "Done."
 fi
 

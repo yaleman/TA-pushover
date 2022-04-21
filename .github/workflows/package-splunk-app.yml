@@ -4,7 +4,6 @@ name: "Package Splunk App"
   push:
     branches:
       - main  # Set a branch to deploy
-  pull_request:
 
 jobs:
   package:

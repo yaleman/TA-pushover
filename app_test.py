@@ -3,12 +3,15 @@
 # pylint: disable=logging-fstring-interpolation,assignment-from-none
 
 import json
-import logging
+# import logging
 from pathlib import Path
 import sys
 from time import sleep
 from typing import Optional, TypedDict
 
+import click
+from loguru import logger
+import requests
 from splunklib import client
 # from splunklib.binding import ResponseReader
 from splunklib.results import JSONResultsReader, Message
@@ -40,7 +43,6 @@ def load_config() -> ConfigFile:
 def configure_app(
     config: ConfigFile,
     splunk: client,
-    logger: logging.Logger,
     ) -> None:
     """ does the configure app thing """
     app_config_data = {
@@ -66,21 +68,33 @@ def configure_app(
     logger.info("Successfully configured the Pushover app!")
 
 def get_baseurl(config: ConfigFile) -> str:
-    """ bas url """
+    """ base url """
     return f"http://{config['splunk_hostname']}:{config['splunk_port']}"
 
 
-# def install_configexplorer(
-#     config: ConfigFile,
-#     splunk: client,
-#     ) -> None:
-#     """ installs configexplorer """
-#     #URL: http://hostname:8000/en-GB/manager/appinstall/_upload
-#     params = {
-#         "force" : 1,
-#         "appfile" : None #  file upload
-#     }
-
+def install_app(
+    config: ConfigFile,
+    splunk: client.Service,
+    filename: str,
+    ) -> None:
+    """ installs app """
+    print(f"oh no {splunk}")
+    url= f"http://{config['splunk_hostname']}:{config['splunk_port']}/en-GB/manager/appinstall/_upload"
+    params = {
+        "force" : 1,
+        "appfile" : None # file bit
+    }
+    try:
+        response = requests.post(
+            url,
+            params=params,
+            files=[ (filename, f"./{filename}"), ],
+            auth=(config["splunk_username"], config["splunk_password"],)
+        )
+        print(response)
+    except requests.exceptions.ConnectionError as connection_error:
+        logger.error(connection_error)
+        sys.exit(1)
 
 def print_results(results_object) -> None:
     """ printer """
@@ -92,15 +106,17 @@ def print_results(results_object) -> None:
         else:
             print(result.get("_raw"))
 
-
-def main():
+@click.command()
+@click.option("--install", is_flag=True, default=False, help="install the app")
+def main(
+    install: bool=False,
+):
     """ main function """
-
     configuration = load_config()
 
-    logger = logging.getLogger("mechanize")
-    logger.addHandler(logging.StreamHandler(sys.stdout))
-    logger.setLevel(logging.DEBUG)
+    # logger = logging.getLogger("mechanize")
+    # logger.addHandler(logging.StreamHandler(sys.stdout))
+    # logger.setLevel(logging.DEBUG)
 
 
     splunk = client.connect(
@@ -115,7 +131,15 @@ def main():
 
     print("Login ok")
 
-    configure_app(configuration, splunk, logger)
+    if install:
+        install_app(
+            config=configuration,
+            splunk=splunk,
+            filename="TA-pushover.spl",
+        )
+        sys.exit(0)
+
+    configure_app(configuration, splunk)
 
     logger.info("Trying to send an alert")
 
@@ -146,7 +170,7 @@ NOT "*splunk-dashboard-studio*" TERM(ExecProcessor)  OR TERM(SearchMessages)
 NOT TERM(cron) NOT "New scheduled exec process" NOT "*IntrospectionGenerator*"
 NOT "interval: run once" NOT "interval: * ms"
 | sort _time
-'''
+''',
         **search_config
     )
 
