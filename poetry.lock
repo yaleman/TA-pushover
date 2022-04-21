@@ -517,7 +517,7 @@ types-urllib3 = "<1.27"
 
 [[package]]
 name = "types-simplejson"
-version = "3.17.4"
+version = "3.17.5"
 description = "Typing stubs for simplejson"
 category = "dev"
 optional = false
@@ -583,7 +583,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "12846b05aa5e6ae630e57cc4fe90e95b207fef7e674c19423123c9ecdd7dce21"
+content-hash = "99a3918a35ab8df0d73e94790aa0bfeef56e8d82cd074609923f012126b3752b"
 
 [metadata.files]
 astroid = [
@@ -919,8 +919,8 @@ types-requests = [
     {file = "types_requests-2.27.20-py3-none-any.whl", hash = "sha256:68b8de86552116424ec23b77afc925e111afb6496d3821b183b7d151b3b834d4"},
 ]
 types-simplejson = [
-    {file = "types-simplejson-3.17.4.tar.gz", hash = "sha256:1e8f95eb9590dfa424f0a569153009d748853c13721d11d73915de87b3b90428"},
-    {file = "types_simplejson-3.17.4-py3-none-any.whl", hash = "sha256:febfb65d05d4439afe0b03f7e8301ee3b53abc6a981b81576c87c11b011d94dc"},
+    {file = "types-simplejson-3.17.5.tar.gz", hash = "sha256:c3d4ad07357707c1fde6668506d00809d24f40bd1ca832f4802ba313ca38c8cd"},
+    {file = "types_simplejson-3.17.5-py3-none-any.whl", hash = "sha256:11765dd310b86ef5d6cd7ad4928939f1dd72241e0130bc63151f1030edb9e5c1"},
 ]
 types-urllib3 = [
     {file = "types-urllib3-1.26.11.tar.gz", hash = "sha256:24d64e441168851eb05f1d022de18ae31558f5649c8f1117e384c2e85e31315b"},
