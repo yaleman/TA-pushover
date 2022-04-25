@@ -201,7 +201,7 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "ksconf"
-version = "0.10.0b3"
+version = "0.10.0b4"
 description = "KSCONF: Ksconf Splunk Configuration Tool"
 category = "dev"
 optional = false
@@ -583,7 +583,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "99a3918a35ab8df0d73e94790aa0bfeef56e8d82cd074609923f012126b3752b"
+content-hash = "30cdc725e84057af828143894e9a5b9c6c0044d65a0f2a9b2f28959dcd300ef8"
 
 [metadata.files]
 astroid = [
@@ -676,8 +676,8 @@ isort = [
     {file = "isort-5.10.1.tar.gz", hash = "sha256:e8443a5e7a020e9d7f97f1d7d9cd17c88bcb3bc7e218bf9cf5095fe550be2951"},
 ]
 ksconf = [
-    {file = "ksconf-0.10.0b3-py2.py3-none-any.whl", hash = "sha256:9f936e7f8991fd70cf8afc5e9cd6d1d473327564344b540c9cab63329ba6fff7"},
-    {file = "ksconf-0.10.0b3.tar.gz", hash = "sha256:e30c6e486c10c93625faa1855f661e29531e2707e703c4f771c388be8ec3b527"},
+    {file = "ksconf-0.10.0b4-py2.py3-none-any.whl", hash = "sha256:b16201e6cf5ddee8602d86f4d27b9a5dfcd787936dd3eae90178ada17616c5a8"},
+    {file = "ksconf-0.10.0b4.tar.gz", hash = "sha256:f49e0173314d4d545353fc8545e0f7cc50dff4e2ca7e3a8fdbb621afcfc311fa"},
 ]
 lazy-object-proxy = [
     {file = "lazy-object-proxy-1.7.1.tar.gz", hash = "sha256:d609c75b986def706743cdebe5e47553f4a5a1da9c5ff66d76013ef396b5a8a4"},

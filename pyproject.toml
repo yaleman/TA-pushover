@@ -23,7 +23,7 @@ types-chardet = "^4.0.3"
 types-simplejson = "^3.17.5"
 types-certifi = "^2021.10.8"
 mechanize = "^0.4.8"
-ksconf = "^0.10.0-beta.3"
+ksconf = "^0.10.0b4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
