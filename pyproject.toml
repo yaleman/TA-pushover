@@ -14,7 +14,7 @@ solnlib = "^4.6.0"
 [tool.poetry.dev-dependencies]
 pylint = "^2.13.7"
 pylint-pytest = "^1.1.2"
-pytest = "^7.1.1"
+pytest = "^7.1.2"
 black = "^22.3.0"
 mypy = "^0.942"
 types-requests = "^2.27.20"
