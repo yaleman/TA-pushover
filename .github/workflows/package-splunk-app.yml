@@ -4,7 +4,6 @@ name: "Package Splunk App"
   push:
     branches:
       - main  # Set a branch to deploy
-  pull_request:
 
 jobs:
   package:
@@ -22,7 +21,7 @@ jobs:
           python --version
           python -m pip install ksconf
           find . -type f -name '*.conf' -exec ksconf check {} \;
-          tar czf TA-pushover.tgz TA-pushover/
+          ./package.sh
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
