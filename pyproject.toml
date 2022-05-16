@@ -13,7 +13,7 @@ solnlib = "^4.6.0"
 splunktaucclib = "^6.0.0"
 
 [tool.poetry.dev-dependencies]
-pylint = "^2.13.8"
+pylint = "^2.13.9"
 pylint-pytest = "^1.1.2"
 pytest = "^7.1.1"
 black = "^22.3.0"
