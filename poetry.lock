@@ -601,7 +601,7 @@ sortedcontainers = ">=2,<3"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.0"
+version = "6.0.2"
 description = ""
 category = "main"
 optional = false
@@ -744,7 +744,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "8b6827063f64d372a97de2d2485b620e2882ba06a15cdc6cf454ef654d704941"
+content-hash = "0387bcc37f326296d3782136d572bb6ee3c14cfe7b528dbf34279fad106df612"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1136,8 +1136,8 @@ splunktalib = [
     {file = "splunktalib-3.0.0.tar.gz", hash = "sha256:0a4e87b8b94f2cdd6be21f00e40d07e8167fcbd5540ac492fe3586b1ec98c25a"},
 ]
 splunktaucclib = [
-    {file = "splunktaucclib-6.0.0-py3-none-any.whl", hash = "sha256:08ee98738532b3888568f9fa95f5945297d344ac4489458adf481b0e79debb44"},
-    {file = "splunktaucclib-6.0.0.tar.gz", hash = "sha256:a2d0f16f240ae2a534ba3631c24f935b3a8fb16fb3e4201546e96268201ec6ae"},
+    {file = "splunktaucclib-6.0.2-py3-none-any.whl", hash = "sha256:16960d855343f9d2278a5c6f0a31523f714274f680695b3e67aea6ba8bace11c"},
+    {file = "splunktaucclib-6.0.2.tar.gz", hash = "sha256:9a8e2405ec4aba299e68630ea53ccb73b329b6ed2f489586bb714a4675f65933"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
