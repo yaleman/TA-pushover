@@ -125,14 +125,14 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "dunamai"
-version = "1.7.0"
+version = "1.12.0"
 description = "Dynamic version generation"
 category = "dev"
 optional = false
 python-versions = ">=3.5,<4.0"
 
 [package.dependencies]
-importlib-metadata = {version = ">=2.1.1", markers = "python_version < \"3.8\""}
+importlib-metadata = {version = ">=1.6.0", markers = "python_version < \"3.8\""}
 packaging = ">=20.9"
 
 [[package]]
@@ -565,7 +565,7 @@ python-versions = "*"
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.10.2"
+version = "5.10.3"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 category = "dev"
 optional = false
@@ -574,9 +574,9 @@ python-versions = ">=3.7,<4.0"
 [package.dependencies]
 addonfactory-splunk-conf-parser-lib = ">=0.3.3,<0.4.0"
 defusedxml = ">=0.7.1,<0.8.0"
-dunamai = "1.7.0"
+dunamai = ">=1.9.0,<2.0.0"
 jinja2 = ">=2,<4"
-jsonschema = ">=4.1.2,<5.0.0"
+jsonschema = ">=4.4.0,<5.0.0"
 
 [[package]]
 name = "splunk-sdk"
@@ -744,7 +744,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "a210c7c021f29c8c1a4ca4718f2bdc32769221b001f927d73e32202a649aaf10"
+content-hash = "5102756517d40e0b983ca36afd5368f85b44d90b18b975913b84c9221474bf39"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -813,8 +813,8 @@ dill = [
     {file = "dill-0.3.4.zip", hash = "sha256:9f9734205146b2b353ab3fec9af0070237b6ddae78452af83d2fca84d739e675"},
 ]
 dunamai = [
-    {file = "dunamai-1.7.0-py3-none-any.whl", hash = "sha256:375e017eb014681e9c8f6e7f2c4c2065ef35832d429f8b70900bed24e8be83f8"},
-    {file = "dunamai-1.7.0.tar.gz", hash = "sha256:6abfeb91768caea59d65a4989cec49472fa66ee04dcd6a5c9f92ebc019926a93"},
+    {file = "dunamai-1.12.0-py3-none-any.whl", hash = "sha256:00b9c1ef58d4950204f76c20f84afe7a28d095f77feaa8512dbb172035415e61"},
+    {file = "dunamai-1.12.0.tar.gz", hash = "sha256:fac4f09e2b8a105bd01f8c50450fea5aa489a6c439c949950a65f0dd388b0d20"},
 ]
 entrypoints = [
     {file = "entrypoints-0.4-py3-none-any.whl", hash = "sha256:f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f"},
@@ -1125,8 +1125,8 @@ sortedcontainers = [
     {file = "sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"},
 ]
 splunk-add-on-ucc-framework = [
-    {file = "splunk_add_on_ucc_framework-5.10.2-py3-none-any.whl", hash = "sha256:0eedceff9e0598f07068b2b0a0590a8dcd391994015ee2eb1614a2a50d651cf9"},
-    {file = "splunk_add_on_ucc_framework-5.10.2.tar.gz", hash = "sha256:b292a5e5f66b520f4cdcdb5bd32bcbaabaa328de483ca0e6f3f3fbebf4e94c91"},
+    {file = "splunk_add_on_ucc_framework-5.10.3-py3-none-any.whl", hash = "sha256:2ddb643a8a5008880f76d2f5609c186a1c2b63f665f1e4e1bc478ff73030e7a6"},
+    {file = "splunk_add_on_ucc_framework-5.10.3.tar.gz", hash = "sha256:78167517ac8828b576f9e083cc622ddf366550e2a42fa42d96e27f8a7bf51409"},
 ]
 splunk-sdk = [
     {file = "splunk-sdk-1.6.19.tar.gz", hash = "sha256:db0e6183e2994e341d7ee81c05ea96acee6e8ee0d7a6d37ac5448c3761effc2b"},
