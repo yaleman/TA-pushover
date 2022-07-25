@@ -648,7 +648,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.10"
+version = "6.0.11"
 description = "Typing stubs for PyYAML"
 category = "dev"
 optional = false
@@ -744,7 +744,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "b1102f1b26178a7b07400ab8287414e743787c1a34f1f48f4df51f0b9a9edf56"
+content-hash = "98c7499f63c3899d64820443765e5de25c09533769989fef02a41baea62888fb"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1187,8 +1187,8 @@ types-chardet = [
     {file = "types_chardet-5.0.2-py3-none-any.whl", hash = "sha256:78f5a0c020a47b73dcb32d7955ef5a024f580fc0966b39ac8d7a0dd4047b7756"},
 ]
 types-pyyaml = [
-    {file = "types-PyYAML-6.0.10.tar.gz", hash = "sha256:a1676caeb098096833fe2f1472e7ea8debf7663222964fa90545cfaafebf3385"},
-    {file = "types_PyYAML-6.0.10-py3-none-any.whl", hash = "sha256:18985a382c93fb12187daae6f57ce7787e3651cd590291c907d3e757919689ff"},
+    {file = "types-PyYAML-6.0.11.tar.gz", hash = "sha256:7f7da2fd11e9bc1e5e9eb3ea1be84f4849747017a59fc2eee0ea34ed1147c2e0"},
+    {file = "types_PyYAML-6.0.11-py3-none-any.whl", hash = "sha256:8f890028123607379c63550179ddaec4517dc751f4c527a52bb61934bf495989"},
 ]
 types-requests = [
     {file = "types-requests-2.28.3.tar.gz", hash = "sha256:fb9ea69311766967f9e91861211ec7449f6484025b766ea709689c0dbb29d7ba"},
