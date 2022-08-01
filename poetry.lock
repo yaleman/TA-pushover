@@ -640,7 +640,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-chardet"
-version = "5.0.2"
+version = "5.0.3"
 description = "Typing stubs for chardet"
 category = "dev"
 optional = false
@@ -744,7 +744,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "ecd8e0f507108b784aaad162ff7f4aa33fa94b338692dff126f65c8bb07e5bf7"
+content-hash = "480919dc58b3c31f00692e590b0c83056f1068152242eb38f3fc095040821831"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1183,8 +1183,8 @@ types-certifi = [
     {file = "types_certifi-2021.10.8.3-py3-none-any.whl", hash = "sha256:b2d1e325e69f71f7c78e5943d410e650b4707bb0ef32e4ddf3da37f54176e88a"},
 ]
 types-chardet = [
-    {file = "types-chardet-5.0.2.tar.gz", hash = "sha256:aa0f1d3a2b5803b900f59305c335ef0b686e645a2e37fba98c6124c8c12cb2f6"},
-    {file = "types_chardet-5.0.2-py3-none-any.whl", hash = "sha256:78f5a0c020a47b73dcb32d7955ef5a024f580fc0966b39ac8d7a0dd4047b7756"},
+    {file = "types-chardet-5.0.3.tar.gz", hash = "sha256:ff45a67b6d126deeabf43ffa72e17fa5914fb37f74cf3bd64da4419bc8248ca1"},
+    {file = "types_chardet-5.0.3-py3-none-any.whl", hash = "sha256:035245a5c2649fe9c2b2fcbecc196b942b733c50ab50abefa74bafbdc1e4dfbd"},
 ]
 types-pyyaml = [
     {file = "types-PyYAML-6.0.11.tar.gz", hash = "sha256:7f7da2fd11e9bc1e5e9eb3ea1be84f4849747017a59fc2eee0ea34ed1147c2e0"},
