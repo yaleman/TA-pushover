@@ -548,7 +548,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "solnlib"
-version = "4.6.2"
+version = "4.7.0"
 description = "The Splunk Software Development Kit for Splunk Solutions"
 category = "main"
 optional = false
@@ -749,7 +749,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e5d18dd3e2ba10c921210917547e855ca75958bb06336391e977dcfd6fd9eed0"
+content-hash = "cc4f2a09aa77f55ff3be55a9fd2d84cf1aa020b60f054fad0a659c3b88ddc543"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1131,8 +1131,8 @@ six = [
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 solnlib = [
-    {file = "solnlib-4.6.2-py3-none-any.whl", hash = "sha256:738bafec69425acaeef1b3b74376f6741c2eb830856f2086d079d7465cd13ddf"},
-    {file = "solnlib-4.6.2.tar.gz", hash = "sha256:86bf29c1f56e6c87d55ccd66317d106e317dfdc4f9ff2c9ea60f1cadb70daeec"},
+    {file = "solnlib-4.7.0-py3-none-any.whl", hash = "sha256:80d62f13b69a3756d6039b7c266e6f7410ccc03411a555b91d996982730adc68"},
+    {file = "solnlib-4.7.0.tar.gz", hash = "sha256:85c341927c364b9ed0bb42fffdcc0d1477545e9dbd12db59f217cc8fa964a64e"},
 ]
 sortedcontainers = [
     {file = "sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0"},
