@@ -606,7 +606,7 @@ sortedcontainers = ">=2,<3"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.5"
+version = "6.0.6"
 description = ""
 category = "main"
 optional = false
@@ -615,7 +615,7 @@ python-versions = ">=3.7,<4.0"
 [package.dependencies]
 PySocks = ">=1.7.1,<2.0.0"
 requests = ">=2.26.0,<3.0.0"
-solnlib = ">=4.0.0,<5.0.0"
+solnlib = ">=4.7.0,<5.0.0"
 splunk-sdk = ">=1.6.18"
 splunktalib = ">=3.0.0,<4.0.0"
 
@@ -749,7 +749,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "648b9f9e6fceff42f2d7b06d85831ce2bcbb995d7cbd6615092d5de1633fb0f4"
+content-hash = "322cf6b81490de2fced7fec103e1d2d89c05a198f5065364cd5e22939fd95ddc"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1150,8 +1150,8 @@ splunktalib = [
     {file = "splunktalib-3.0.0.tar.gz", hash = "sha256:0a4e87b8b94f2cdd6be21f00e40d07e8167fcbd5540ac492fe3586b1ec98c25a"},
 ]
 splunktaucclib = [
-    {file = "splunktaucclib-6.0.5-py3-none-any.whl", hash = "sha256:d0924c5da2e1a3a01ebecac41dac3a564fdcfd7be949f7dae0e8f95b070defae"},
-    {file = "splunktaucclib-6.0.5.tar.gz", hash = "sha256:e328641eb95836a51da1a26f8d48ff39f54c85d315e2e3692bd224c9dd4e05fe"},
+    {file = "splunktaucclib-6.0.6-py3-none-any.whl", hash = "sha256:fe32ac29692b6e4f72920b080d0ff442ae321d1fb3651a4176815b3ded522fb4"},
+    {file = "splunktaucclib-6.0.6.tar.gz", hash = "sha256:5323d52120b99037fc597fa4fe4d3f69bc05249f8dcdade9957720b30763111a"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
