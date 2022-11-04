@@ -581,7 +581,7 @@ python-versions = "*"
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.14.1"
+version = "5.14.2"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 category = "dev"
 optional = false
@@ -760,7 +760,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "c0d5ac12378c4c7b611e51fcde0791be69d810a7d811c301c2ad8763448cb5ef"
+content-hash = "55f0da45fd2d24dc932c33a6d32d602e3a9e5af7f97de3170d4873b262be3505"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1191,8 +1191,8 @@ sortedcontainers = [
     {file = "sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"},
 ]
 splunk-add-on-ucc-framework = [
-    {file = "splunk_add_on_ucc_framework-5.14.1-py3-none-any.whl", hash = "sha256:b97ab1e1c9bd266fcdc3f3840a29d3c7c18dd0443e550c5caad4c54b1d6c13aa"},
-    {file = "splunk_add_on_ucc_framework-5.14.1.tar.gz", hash = "sha256:a599f3d9ba5e41284b147c81974daf4444c5a13c3ede0b6c4e426677f6e35c4f"},
+    {file = "splunk_add_on_ucc_framework-5.14.2-py3-none-any.whl", hash = "sha256:8807c2f0189e09c7aa599af05b2282d6c5d2fce67bee4cee16f7eb9e7640780f"},
+    {file = "splunk_add_on_ucc_framework-5.14.2.tar.gz", hash = "sha256:b0179dc7dfde96bcfc0f1031c03494c3b1cebd7650ded74e1e14f90e9f93374b"},
 ]
 splunk-sdk = [
     {file = "splunk-sdk-1.6.19.tar.gz", hash = "sha256:db0e6183e2994e341d7ee81c05ea96acee6e8ee0d7a6d37ac5448c3761effc2b"},
