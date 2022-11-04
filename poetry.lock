@@ -167,7 +167,7 @@ lxml = ["lxml"]
 
 [[package]]
 name = "httplib2"
-version = "0.20.4"
+version = "0.21.0"
 description = "A comprehensive HTTP client library."
 category = "main"
 optional = false
@@ -760,7 +760,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "4c85ee2cc8e0b0a149053ca6bb489d622a9d07b36314dae1e5cd090e152eb56e"
+content-hash = "c0d5ac12378c4c7b611e51fcde0791be69d810a7d811c301c2ad8763448cb5ef"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -839,8 +839,8 @@ html5lib = [
     {file = "html5lib-1.1.tar.gz", hash = "sha256:b2e5b40261e20f354d198eae92afc10d750afb487ed5e50f9c4eaf07c184146f"},
 ]
 httplib2 = [
-    {file = "httplib2-0.20.4-py3-none-any.whl", hash = "sha256:8b6a905cb1c79eefd03f8669fd993c36dc341f7c558f056cb5a33b5c2f458543"},
-    {file = "httplib2-0.20.4.tar.gz", hash = "sha256:58a98e45b4b1a48273073f905d2961666ecf0fbac4250ea5b47aef259eb5c585"},
+    {file = "httplib2-0.21.0-py3-none-any.whl", hash = "sha256:987c8bb3eb82d3fa60c68699510a692aa2ad9c4bd4f123e51dfb1488c14cdd01"},
+    {file = "httplib2-0.21.0.tar.gz", hash = "sha256:fc144f091c7286b82bec71bdbd9b27323ba709cc612568d3000893bfd9cb4b34"},
 ]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
