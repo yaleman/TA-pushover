@@ -684,7 +684,7 @@ types-urllib3 = "<1.27"
 
 [[package]]
 name = "types-simplejson"
-version = "3.17.7.2"
+version = "3.18.0.0"
 description = "Typing stubs for simplejson"
 category = "dev"
 optional = false
@@ -761,7 +761,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "f0d4470920d7959a45ad5e7e77ebe2bcd54cc7deaa1c0474f883f08b2f53db25"
+content-hash = "7e23dfbc8dd6aace9e2c021679b4135f1ef879c858f693863efcc553b133b9c3"
 
 [metadata.files]
 addonfactory-splunk-conf-parser-lib = [
@@ -1259,8 +1259,8 @@ types-requests = [
     {file = "types_requests-2.28.11.2-py3-none-any.whl", hash = "sha256:14941f8023a80b16441b3b46caffcbfce5265fd14555844d6029697824b5a2ef"},
 ]
 types-simplejson = [
-    {file = "types-simplejson-3.17.7.2.tar.gz", hash = "sha256:a4968032706c4460e7fbe6ba66c5744ae7c9b94afd7c0abead7d54ab3fa67127"},
-    {file = "types_simplejson-3.17.7.2-py3-none-any.whl", hash = "sha256:ee1a49ed92b92a7adeaabb3413b71bad3623fb731791c5614db763ce9f195725"},
+    {file = "types-simplejson-3.18.0.0.tar.gz", hash = "sha256:857adb13190abd65d0d103be965152e79a6842c5663e01e8681bde1895713f52"},
+    {file = "types_simplejson-3.18.0.0-py3-none-any.whl", hash = "sha256:f8a8428f753574fa3b7eb290756776f0fb6b4ad9cae72bf8c0c9534eeda6398c"},
 ]
 types-urllib3 = [
     {file = "types-urllib3-1.26.14.tar.gz", hash = "sha256:2a2578e4b36341ccd240b00fccda9826988ff0589a44ba4a664bbd69ef348d27"},
