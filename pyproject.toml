@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "TA-pushover"
-version = "0.0.1"
+version = "0.0.2"
 description = "Pushover App for Splunk"
 authors = ["James Hodgkinson <james@terminaloutcomes.com>"]
 license = "MIT"
