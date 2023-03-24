@@ -25,7 +25,7 @@ types-simplejson = "^3.18.0"
 types-certifi = "^2021.10.8"
 mechanize = "^0.4.8"
 ksconf = "^0.10.1"
-splunk-add-on-ucc-framework = "^5.22.0"
+splunk-add-on-ucc-framework = "^5.23.2"
 loguru = "^0.6.0"
 
 [build-system]
