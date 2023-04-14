@@ -26,7 +26,7 @@ types-certifi = "^2021.10.8"
 mechanize = "^0.4.8"
 ksconf = "^0.10.1"
 splunk-add-on-ucc-framework = "^5.24.0"
-loguru = "^0.6.0"
+loguru = "^0.7.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
