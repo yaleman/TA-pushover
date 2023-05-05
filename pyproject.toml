@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-requests = "^2.29.0"
+requests = "^2.30.0"
 httplib2 = "^0.22.0"
 solnlib = "^4.11.1"
 splunktaucclib = "^6.0.7"
