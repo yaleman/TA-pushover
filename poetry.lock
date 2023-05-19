@@ -1195,14 +1195,14 @@ sortedcontainers = ">=2,<3"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.7"
+version = "6.0.8"
 description = ""
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktaucclib-6.0.7-py3-none-any.whl", hash = "sha256:3970db9d8ba0a0427b7a5d1df6e00a695946016ef7bc89f9ec3c32ebd03c9d45"},
-    {file = "splunktaucclib-6.0.7.tar.gz", hash = "sha256:d8ade282a06560a1c4c578aafbd2cfde037e4e0673a18cb24830a2b3be8c88a6"},
+    {file = "splunktaucclib-6.0.8-py3-none-any.whl", hash = "sha256:d7e99e1cd0a71d0ff54207fe75d8daf9b91b69c8c04aec2a4fe6f4bd81ab66f9"},
+    {file = "splunktaucclib-6.0.8.tar.gz", hash = "sha256:e8267196760445b05731dd6768f8ef4bef1a453c3670436d5a569eecdb635b8a"},
 ]
 
 [package.dependencies]
@@ -1494,4 +1494,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "d4ab1454fc4cfbffe5af2a784e8c12c784dc550f59905d9ab237ad56865f44cb"
+content-hash = "c8314c9e4bfde5262ae7c246d6c3587afec9ae8d6dd49e4d9e13bf4691281723"
