@@ -1200,21 +1200,22 @@ files = [
 
 [[package]]
 name = "solnlib"
-version = "4.11.1"
+version = "4.11.2"
 description = "The Splunk Software Development Kit for Splunk Solutions"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "solnlib-4.11.1-py3-none-any.whl", hash = "sha256:3fc2ab03e43c98db46cefdb8dfef54ef73bf204fc1d61561307a24427a6a56b2"},
-    {file = "solnlib-4.11.1.tar.gz", hash = "sha256:eb8178425174c74cd6cb19b07f48fd1c440cb9cb375f3e4a640d2c15178c8e14"},
+    {file = "solnlib-4.11.2-py3-none-any.whl", hash = "sha256:2f4ff54c009cff92dee09a1f9e32bec4ba40b2be066c287e6b4e331cd8a5ed5a"},
+    {file = "solnlib-4.11.2.tar.gz", hash = "sha256:501f8aecbb8df8176e1e870d568bc856f21055c0242849409792aa0c44f8bffa"},
 ]
 
 [package.dependencies]
 defusedxml = ">=0.7.1,<0.8.0"
-requests = ">=2.28.0,<3.0.0"
+requests = ">=2.31.0,<3.0.0"
 sortedcontainers = ">=2.2,<3.0"
 splunk-sdk = ">=1.6.18"
+urllib3 = "<2"
 
 [[package]]
 name = "sortedcontainers"
@@ -1582,4 +1583,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "e39c0dce53c11ec65c0904cc0345e1ca065381023ed05d5d28c0afc149c8fcc4"
+content-hash = "406e2ea4163f6e1e44779224226413179d93cedfde763ce88e5b0a9a025aa786"
