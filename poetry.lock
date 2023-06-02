@@ -1266,39 +1266,41 @@ files = [
 
 [[package]]
 name = "splunktalib"
-version = "3.0.0"
+version = "3.0.4"
 description = "Supporting library for Splunk Add-ons"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktalib-3.0.0-py3-none-any.whl", hash = "sha256:371aa9ba95e4535458f2a8b981a50f039a1f973818f27ef542ecd827cae5f462"},
-    {file = "splunktalib-3.0.0.tar.gz", hash = "sha256:0a4e87b8b94f2cdd6be21f00e40d07e8167fcbd5540ac492fe3586b1ec98c25a"},
+    {file = "splunktalib-3.0.4-py3-none-any.whl", hash = "sha256:5d4226f0e402dd65d8457500b35d6c459642b6a5da81ec1830e8d57f03e90ecc"},
+    {file = "splunktalib-3.0.4.tar.gz", hash = "sha256:1ffeb9b7301712e2dbe937cdbc6ea66ac0de14bb91835c0b5cbb683a9f4eac05"},
 ]
 
 [package.dependencies]
 defusedxml = ">=0,<1"
-requests = ">=2.26.0,<3.0.0"
+requests = ">=2.31.0,<3.0.0"
 sortedcontainers = ">=2,<3"
+urllib3 = "<2"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.8"
+version = "6.0.9"
 description = ""
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktaucclib-6.0.8-py3-none-any.whl", hash = "sha256:d7e99e1cd0a71d0ff54207fe75d8daf9b91b69c8c04aec2a4fe6f4bd81ab66f9"},
-    {file = "splunktaucclib-6.0.8.tar.gz", hash = "sha256:e8267196760445b05731dd6768f8ef4bef1a453c3670436d5a569eecdb635b8a"},
+    {file = "splunktaucclib-6.0.9-py3-none-any.whl", hash = "sha256:eb9a1ded23c9369d32fd721e05eee55db2b0e2d8f08ab9679e5a8b8772030260"},
+    {file = "splunktaucclib-6.0.9.tar.gz", hash = "sha256:0d59c03bd174a2913a92b56ca63d0f176a7e4e73ca1fa088f3544ba49846de70"},
 ]
 
 [package.dependencies]
 PySocks = ">=1.7.1,<2.0.0"
-requests = ">=2.26.0,<3.0.0"
-solnlib = ">=4.7.0,<5.0.0"
+requests = ">=2.31.0,<3.0.0"
+solnlib = ">=4.11.2,<5.0.0"
 splunk-sdk = ">=1.6.18"
-splunktalib = ">=3.0.0,<4.0.0"
+splunktalib = ">=3.0.4,<4.0.0"
+urllib3 = "<2"
 
 [[package]]
 name = "text-unidecode"
@@ -1582,4 +1584,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "d8e8610a733fd020d977761ce13b5b752dd4ed0d24bcfeac6517ffc53a9d664a"
+content-hash = "3c054209e3b7e4f199cc23d340d74d1ff29d807dd9de20efa42c435eba338ca2"
