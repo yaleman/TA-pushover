@@ -27,7 +27,7 @@ types-simplejson = "^3.19.0"
 types-certifi = "^2021.10.8"
 mechanize = "^0.4.8"
 ksconf = "^0.11.4"
-splunk-add-on-ucc-framework = "^5.28.4"
+splunk-add-on-ucc-framework = "^5.28.5"
 loguru = "^0.7.1"
 
 [tool.pylint.MASTER]
