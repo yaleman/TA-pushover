@@ -26,7 +26,7 @@ types-chardet = "^5.0.4"
 types-simplejson = "^3.19.0"
 types-certifi = "^2021.10.8"
 mechanize = "^0.4.8"
-ksconf = "^0.11.5"
+ksconf = "^0.11.7"
 splunk-add-on-ucc-framework = "^5.29.0"
 loguru = "^0.7.2"
 
