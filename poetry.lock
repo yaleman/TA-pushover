@@ -1227,20 +1227,20 @@ urllib3 = "<2"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.9"
+version = "6.0.10"
 description = ""
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktaucclib-6.0.9-py3-none-any.whl", hash = "sha256:eb9a1ded23c9369d32fd721e05eee55db2b0e2d8f08ab9679e5a8b8772030260"},
-    {file = "splunktaucclib-6.0.9.tar.gz", hash = "sha256:0d59c03bd174a2913a92b56ca63d0f176a7e4e73ca1fa088f3544ba49846de70"},
+    {file = "splunktaucclib-6.0.10-py3-none-any.whl", hash = "sha256:a6a03f20e67c7349e0fc5a0965077de7667183a1547b9de9458dde0eb9046553"},
+    {file = "splunktaucclib-6.0.10.tar.gz", hash = "sha256:85303b92cbc0a1e6ca167c377647419f3169983648d0fab645da8c8a10061be8"},
 ]
 
 [package.dependencies]
 PySocks = ">=1.7.1,<2.0.0"
 requests = ">=2.31.0,<3.0.0"
 solnlib = ">=4.11.2,<5.0.0"
-splunk-sdk = ">=1.6.18"
+splunk-sdk = ">=1.6"
 splunktalib = ">=3.0.4,<4.0.0"
 urllib3 = "<2"
 
@@ -1511,4 +1511,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "ef4aad879b710399288da1b28f33545b1fb98f220b07d12124e45a0ca15d64dc"
+content-hash = "768960c4ce72c77d4998d6c9838298ab8c8ee304792b1e4164436ee5acebfa43"

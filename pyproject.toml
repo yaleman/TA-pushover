@@ -12,7 +12,7 @@ python = "^3.7"
 requests = "^2.31.0"
 httplib2 = "^0.22.0"
 solnlib = "^4.11.2"
-splunktaucclib = "^6.0.9"
+splunktaucclib = "^6.0.10"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.13.9"
