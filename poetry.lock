@@ -512,13 +512,13 @@ format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-
 
 [[package]]
 name = "ksconf"
-version = "0.12.0"
+version = "0.13.1"
 description = "KSCONF: Ksconf Splunk Configuration Tool"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "ksconf-0.12.0-py2.py3-none-any.whl", hash = "sha256:32fa09f4ad9de76c60a7325cf2f7e9ba78859c55597a8247fa8612ab3fe4b408"},
-    {file = "ksconf-0.12.0.tar.gz", hash = "sha256:ee21637959b80ef44d35f8fb64c8f85e6eae2d6f748be3942b7851ce81b60d74"},
+    {file = "ksconf-0.13.1-py2.py3-none-any.whl", hash = "sha256:16cd9c8b544abd2892494baff2805f89887935c229f59d9865471badf42e542f"},
+    {file = "ksconf-0.13.1.tar.gz", hash = "sha256:38866da3970cf813fc7a554809fc10bc48a572eac03aedde5794b21a5052c8e3"},
 ]
 
 [package.dependencies]
@@ -528,7 +528,7 @@ splunk-sdk = ">=1.7.0"
 
 [package.extras]
 bash = ["argcomplete"]
-fully-loaded = ["argcomplete", "jinja2", "lxml", "splunk-sdk"]
+fully-loaded = ["argcomplete", "jinja2", "lxml", "pyyaml", "splunk-sdk"]
 jinja = ["jinja2"]
 thirdparty = ["lxml", "splunk-sdk (>=1.7.0)"]
 xml = ["lxml"]
@@ -1417,4 +1417,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "53bfba7f55eb8794df19e8a01188e13de602964eb39bd50e00447b36c8fd7b01"
+content-hash = "22b5a21c19690ea3c542c52cd3a34104a87bd49638c43f06878300578e4fc129"
