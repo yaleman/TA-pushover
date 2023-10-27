@@ -758,16 +758,17 @@ testutil = ["gitpython (>3)"]
 
 [[package]]
 name = "pylint-pytest"
-version = "1.1.2"
+version = "1.1.3"
 description = "A Pylint plugin to suppress pytest-related false positives."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "pylint_pytest-1.1.2-py2.py3-none-any.whl", hash = "sha256:fb20ef318081cee3d5febc631a7b9c40fa356b05e4f769d6e60a337e58c8879b"},
+    {file = "pylint-pytest-1.1.3.tar.gz", hash = "sha256:c12831f968973b434c1f78df6acf37b9de2f0981fadbc139942eb459a9b7bca8"},
+    {file = "pylint_pytest-1.1.3-py3-none-any.whl", hash = "sha256:69de0dcf8fba357c47acc889bbd7eb423e58d8eab0274d0a5b61a895aff46bb9"},
 ]
 
 [package.dependencies]
-pylint = "*"
+pylint = "<3"
 pytest = ">=4.6"
 
 [[package]]
@@ -1309,4 +1310,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "3ed09bd72570f3d939a347bb1033c655da058fc9532ef75b1de22ce9c9d9d68f"
+content-hash = "665aa2122c00d4e98573d88a911a2ddfe7ed09263be2760e599bbcf713091ced"
