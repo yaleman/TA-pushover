@@ -584,13 +584,13 @@ files = [
 
 [[package]]
 name = "mechanize"
-version = "0.4.8"
+version = "0.4.9"
 description = "Stateful, programmatic web browsing"
 optional = false
 python-versions = "*"
 files = [
-    {file = "mechanize-0.4.8-py2.py3-none-any.whl", hash = "sha256:961fd171b5eb37a7578fce62ba81ba85803dff3c5ba4ac24f6f569ae27198439"},
-    {file = "mechanize-0.4.8.tar.gz", hash = "sha256:5e86ac0777357e006eb04cd28f7ed9f811d48dffa603d3891ac6d2b92280dc91"},
+    {file = "mechanize-0.4.9-py2.py3-none-any.whl", hash = "sha256:eafc3350fbcd895f4715712f0bdc7e544a1b2883e85f1987423b86bd9dd93ff7"},
+    {file = "mechanize-0.4.9.tar.gz", hash = "sha256:69a5edb0962f921e8b10837368c2242d8ad049f0b91ff699ce7f601bfc431521"},
 ]
 
 [package.dependencies]
@@ -1310,4 +1310,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "067d36062028443bdd007e2f17420c79ae15df594a9b20338d582eb1e3dfdbdf"
+content-hash = "16e7c2eda6f5375c00f31f2aae7a9cb2f705f3337bc71716a3df5fc665ab4b1f"
