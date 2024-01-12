@@ -978,17 +978,17 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.35.1"
+version = "5.36.1"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunk_add_on_ucc_framework-5.35.1-py3-none-any.whl", hash = "sha256:bb625a95ab1451201aeb3592b36e17ecb2c22bc871f6ae92d2940120e8eb9c98"},
-    {file = "splunk_add_on_ucc_framework-5.35.1.tar.gz", hash = "sha256:a7590312296b514484ec53a443dc9779a7ce931a52a4d2f37250345a364e677c"},
+    {file = "splunk_add_on_ucc_framework-5.36.1-py3-none-any.whl", hash = "sha256:9ecc895ad5fd7ce4262a1c984c31bff762d2cb6e7c9752c0b3bcbb166d7ac91b"},
+    {file = "splunk_add_on_ucc_framework-5.36.1.tar.gz", hash = "sha256:ed9bef39e422d31410ae4ab80994277b465a0723ba981746458cc3b81152dbef"},
 ]
 
 [package.dependencies]
-addonfactory-splunk-conf-parser-lib = ">=0.3.3,<0.4.0"
+addonfactory-splunk-conf-parser-lib = "*"
 colorama = ">=0.4.6,<0.5.0"
 defusedxml = ">=0.7.1,<0.8.0"
 dunamai = ">=1.9.0,<2.0.0"
@@ -1311,4 +1311,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "a132e5a3c7f487e3fafa9a51fbfd1e94a08421570e70416cdfad369f9542079a"
+content-hash = "42e999fdd415d9838a6ab71ff6d83a3f242e0a1781fbe1e059bc9478fbbd2f09"
