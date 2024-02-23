@@ -1028,13 +1028,13 @@ urllib3 = "<2"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.10"
+version = "6.1.0"
 description = ""
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktaucclib-6.0.10-py3-none-any.whl", hash = "sha256:a6a03f20e67c7349e0fc5a0965077de7667183a1547b9de9458dde0eb9046553"},
-    {file = "splunktaucclib-6.0.10.tar.gz", hash = "sha256:85303b92cbc0a1e6ca167c377647419f3169983648d0fab645da8c8a10061be8"},
+    {file = "splunktaucclib-6.1.0-py3-none-any.whl", hash = "sha256:fb04017611533cd2a36477478e9f771d9baa7b164429e9bf3f45e86e2e745ee2"},
+    {file = "splunktaucclib-6.1.0.tar.gz", hash = "sha256:8c29fcfadc5bd57702dedce824d1e3b897119c40cb00518d681622fd20e056e7"},
 ]
 
 [package.dependencies]
@@ -1311,4 +1311,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "8efd91c373248f327b0f68ad37db1da0f1679b3ce003c154689c5014448a7d0f"
+content-hash = "858c258e9a39c64624526ebc0750c101408332314fa6d2de758d1a6d5a50aaee"
