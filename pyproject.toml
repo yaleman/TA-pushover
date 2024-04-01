@@ -18,7 +18,6 @@ splunktaucclib = "^6.1.0"
 pylint = "^2.13.9"
 pylint-pytest = "^1.1.7"
 pytest = "^7.4.4"
-black = "^23.3.0"
 mypy = "^1.4"
 types-requests = "^2.31.0"
 types-PyYAML = "^6.0.12"
@@ -29,6 +28,9 @@ mechanize = "^0.4.9"
 ksconf = "^0.13.9"
 splunk-add-on-ucc-framework = "^5.40.0"
 loguru = "^0.7.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.5"
 
 [tool.pylint.MASTER]
 disable = "W0511"
