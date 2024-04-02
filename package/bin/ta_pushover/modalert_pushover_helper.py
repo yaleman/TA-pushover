@@ -2,12 +2,14 @@
 
 import json
 import logging
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 import requests
 
-class Pushover():
-    """ pushover handler """
+
+class Pushover:
+    """pushover handler"""
+
     api_url = "https://api.pushover.net/1/messages.json"
 
     # TODO: handle http 429 - rate limiting
@@ -16,16 +18,17 @@ class Pushover():
     # X-Limit-App-Remaining: 7496
     # X-Limit-App-Reset: 1393653600
 
-    def __init__(self,
-        token: Optional[str]=None,
+    def __init__(
+        self,
+        token: Optional[str] = None,
         logger: logging.Logger = logging.getLogger(),
-        ) -> None:
-        """ setter """
+    ) -> None:
+        """setter"""
         self.token = token
         self.logger = logger
 
-    def get_rate_limit(self, token: Optional[str]=None) -> Dict[str,str]:
-        """ gets the rate limit endpoint """
+    def get_rate_limit(self, token: Optional[str] = None) -> Dict[str, str]:
+        """gets the rate limit endpoint"""
         if token is not None:
             check_token = token
         elif self.token is not None:
@@ -33,20 +36,26 @@ class Pushover():
         else:
             raise ValueError("Please set a token")
         url = f"https://api.pushover.net/1/apps/limits.json?token={check_token}"
-        return requests.get(url).json()
+        res: Dict[str, str] = requests.get(url).json()
+        return res
 
     @classmethod
-    def check_lengths(cls, message_payload: Dict[str,str]) -> None:
-        """ checks for lengths of things """
+    def check_lengths(cls, message_payload: Dict[str, str]) -> None:
+        """checks for lengths of things"""
         length_checks = {
-            "title" : 250,
-            "message" : 1024,
-            "url" : 512,
-            "url_title" : 100,
+            "title": 250,
+            "message": 1024,
+            "url": 512,
+            "url_title": 100,
         }
         for key_value, max_length in length_checks.items():
-            if key_value in message_payload and len(str(message_payload[key_value])) > max_length:
-                raise ValueError(f"Length of {key_value} is too long {len(str(message_payload[key_value]))} > {max_length}")
+            if (
+                key_value in message_payload
+                and len(str(message_payload[key_value])) > max_length
+            ):
+                raise ValueError(
+                    f"Length of {key_value} is too long {len(str(message_payload[key_value]))} > {max_length}"
+                )
 
     @classmethod
     def validate_msg_format(
@@ -54,8 +63,8 @@ class Pushover():
         content: Dict[str, str],
         html_value: bool,
         monospace_value: bool,
-        ) -> None:
-        """ validates the html and monospace fields """
+    ) -> None:
+        """validates the html and monospace fields"""
         if monospace_value and html_value:
             raise ValueError("You need to set either monospace or html, not both")
         if monospace_value:
@@ -67,43 +76,43 @@ class Pushover():
     def validate_priority(
         cls,
         content: Dict[str, str],
-        priority_value: Optional[int]=None,
-        ) -> None:
-        """ validates the priority field """
+        priority_value: Optional[int] = None,
+    ) -> None:
+        """validates the priority field"""
         if priority_value is not None:
             # priority needs to be between -2 and 2
-            if (-2 <= priority_value  <= 2) is False:
+            if (-2 <= priority_value <= 2) is False:
                 raise ValueError("Priority needs to be between -2 and 2")
             content["priority"] = str(priority_value)
 
-    #pylint: disable=too-many-arguments,too-many-branches,too-many-locals
+    # pylint: disable=too-many-arguments,too-many-branches,too-many-locals
     def send(
         self,
         token: str,
         user: str,
         message: str,
         # attachment: Optional[str]=None, # yeah nah
-        priority: int=0,
-        html: bool=False,
-        monospace: bool=False,
-        device: Optional[str]=None,
-        sound: str="none",
-        timestamp: Optional[int]=None,
-        title: Optional[str]=None,
-        url: Optional[str]=None,
-        url_title: Optional[str]=None,
+        priority: int = 0,
+        html: bool = False,
+        monospace: bool = False,
+        device: Optional[str] = None,
+        sound: str = "none",
+        timestamp: Optional[int] = None,
+        title: Optional[str] = None,
+        url: Optional[str] = None,
+        url_title: Optional[str] = None,
     ) -> None:
-        """ send a pushover message
+        """send a pushover message
 
         API docs here: https://pushover.net/api#messages"""
 
         message_payload = {
-            "token" : token,
-            "user" : user,
-            "message" :  message,
+            "token": token,
+            "user": user,
+            "message": message,
         }
         if sound != "_" and sound is not None:
-            message_payload["sound"]=sound
+            message_payload["sound"] = sound
 
         if device is not None:
             message_payload["device"] = device
@@ -122,22 +131,30 @@ class Pushover():
         self.validate_msg_format(message_payload, html, monospace)
         self.check_lengths(message_payload)
 
-        self.logger.debug(f"event message payload: {json.dumps(message_payload, default=str)}")
+        self.logger.debug(
+            f"event message payload: {json.dumps(message_payload, default=str)}"
+        )
 
         message_send_response = requests.post(
             self.api_url,
             json=message_payload,
-            )
-        self.logger.info("message send response content: %s", message_send_response.content)
+        )
+        self.logger.info(
+            "message send response content: %s", message_send_response.content
+        )
 
         responsedata = message_send_response.json()
-        if not "status" in responsedata:
-            raise ValueError(f"status not returned in response to m essage: {responsedata}")
+        if "status" not in responsedata:
+            raise ValueError(
+                f"status not returned in response to m essage: {responsedata}"
+            )
         if responsedata["status"] != 1 and responsedata["status"] != "1":
-            raise ValueError(f"Status code returned from API was: '{responsedata['status']}'")
+            raise ValueError(
+                f"Status code returned from API was: '{responsedata['status']}'"
+            )
 
 
-def process_event(helper, *args, **kwargs):
+def process_event(helper: Any, *args: Any, **kwargs: Any) -> int:
     """
     # IMPORTANT
     # Do not remove the anchor macro:start and macro:end lines.
