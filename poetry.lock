@@ -986,13 +986,13 @@ files = [
 
 [[package]]
 name = "solnlib"
-version = "4.13.0"
+version = "4.14.0"
 description = "The Splunk Software Development Kit for Splunk Solutions"
 optional = false
 python-versions = "<4.0,>=3.7"
 files = [
-    {file = "solnlib-4.13.0-py3-none-any.whl", hash = "sha256:047f23b3782193368e37595666c5dbdfee2687aadd404a36c9b0728173217403"},
-    {file = "solnlib-4.13.0.tar.gz", hash = "sha256:814c23cce4ae6e34c0d3f8df9338fc1a70df3bf1dd084c584b9dedca8b85685d"},
+    {file = "solnlib-4.14.0-py3-none-any.whl", hash = "sha256:de9f20f5ec8246acb281e381f89664d355f0de072b4eaaf055f8bce03d3eb80e"},
+    {file = "solnlib-4.14.0.tar.gz", hash = "sha256:d5add6a198c4c9c5a2114b33b36f2264a31c8765ca5df9cc8b74a2beb375cc2a"},
 ]
 
 [package.dependencies]
@@ -1364,4 +1364,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "3d69421c3dc5034aa06b3fb7e925b4d7c2c31b2226a9df08f674f0da5a3f7d71"
+content-hash = "2525f91be187b00dceb834eb06a4dde3e4738222aa20b637f5de3b02222fa323"
