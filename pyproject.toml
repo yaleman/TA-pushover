@@ -15,7 +15,7 @@ splunktaucclib = "^6.2.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.13.9"
-pylint-pytest = "^1.1.7"
+pylint-pytest = "^1.1.8"
 pytest = "^7.4.4"
 mypy = "^1.4"
 types-requests = "^2.31.0"
