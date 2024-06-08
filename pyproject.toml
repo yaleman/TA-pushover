@@ -10,7 +10,7 @@ package-mode = false
 python = "^3.7"
 requests = "^2.31.0"
 httplib2 = "^0.22.0"
-solnlib = "^4.14.0"
+solnlib = "^4.14.1"
 splunktaucclib = "^6.2.0"
 
 [tool.poetry.dev-dependencies]
