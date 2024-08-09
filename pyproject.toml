@@ -29,7 +29,7 @@ splunk-add-on-ucc-framework = "^5.48.2"
 loguru = "^0.7.2"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.5.6"
+ruff = "^0.5.7"
 click = "^8.1.7"
 
 [tool.pylint.MASTER]
