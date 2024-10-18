@@ -228,13 +228,13 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "dunamai"
-version = "1.21.2"
+version = "1.22.0"
 description = "Dynamic version generation"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "dunamai-1.21.2-py3-none-any.whl", hash = "sha256:87db76405bf9366f9b4925ff5bb1db191a9a1bd9f9693f81c4d3abb8298be6f0"},
-    {file = "dunamai-1.21.2.tar.gz", hash = "sha256:05827fb5f032f5596bfc944b23f613c147e676de118681f3bb1559533d8a65c4"},
+    {file = "dunamai-1.22.0-py3-none-any.whl", hash = "sha256:eab3894b31e145bd028a74b13491c57db01986a7510482c9b5fff3b4e53d77b7"},
+    {file = "dunamai-1.22.0.tar.gz", hash = "sha256:375a0b21309336f0d8b6bbaea3e038c36f462318c68795166e31f9873fdad676"},
 ]
 
 [package.dependencies]
@@ -998,20 +998,20 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.50.1"
+version = "5.51.0"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = "<4.0,>=3.7"
 files = [
-    {file = "splunk_add_on_ucc_framework-5.50.1-py3-none-any.whl", hash = "sha256:593601de16ee9c0a4ef99e25b036ebc2413d19c2a76a0d78bab7b7e71f0c18d4"},
-    {file = "splunk_add_on_ucc_framework-5.50.1.tar.gz", hash = "sha256:d4b75b0a5d534daf97d7d231968744276ec1a5f7695d3d3f5628ec63074cbaeb"},
+    {file = "splunk_add_on_ucc_framework-5.51.0-py3-none-any.whl", hash = "sha256:b56f618c2ec981d98b2b6b4aabbcc0a141f83af67e0d150c9fc0a552851d0621"},
+    {file = "splunk_add_on_ucc_framework-5.51.0.tar.gz", hash = "sha256:a84cd086c969ab38703dde4ba8e2a1a8d91420702180da58d9dac1a1baf683b7"},
 ]
 
 [package.dependencies]
 addonfactory-splunk-conf-parser-lib = ">=0.4.3,<0.5.0"
 colorama = ">=0.4.6,<0.5.0"
 defusedxml = ">=0.7.1,<0.8.0"
-dunamai = ">=1.9.0,<2.0.0"
+dunamai = ">=1.22.0,<2.0.0"
 jinja2 = ">=2,<4"
 jsonschema = ">=4.4.0,<5.0.0"
 PyYAML = ">=6.0,<7.0"
@@ -1344,4 +1344,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "84d3c2295878429dfc93217db1d306a53f6fc358f73ad28c4b99e8fe0d96c531"
+content-hash = "ceb2ab7ec74a5748ad09d878f606a2f802cd907fb7d88de2798e10d28bd4c7eb"
