@@ -25,7 +25,7 @@ types-simplejson = "^3.19.0"
 types-certifi = "^2021.10.8"
 mechanize = "^0.4.10"
 ksconf = "^0.13.9"
-splunk-add-on-ucc-framework = "^5.51.0"
+splunk-add-on-ucc-framework = "^5.51.1"
 loguru = "^0.7.2"
 
 [tool.poetry.group.dev.dependencies]
