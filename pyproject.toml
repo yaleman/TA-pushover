@@ -1,48 +1,30 @@
-[tool.poetry]
-name = "TA-pushover"
+[project]
+name = "ta-pushover"
 version = "0.0.2"
 description = "Pushover App for Splunk"
-authors = ["James Hodgkinson <james@terminaloutcomes.com>"]
-license = "MIT"
-package-mode = false
+authors = [{ name = "James Hodgkinson", email = "james@terminaloutcomes.com" }]
+requires-python = ">=3.9"
+dependencies = [
+    "httplib2>=0.22.0",
+    "requests>=2.31.0",
+    "solnlib>=4.14.1",
+    "splunk-sdk>=2.1.0",
+    "splunktaucclib>=6.2.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.7"
-requests = "^2.31.0"
-httplib2 = "^0.31.2"
-solnlib = "^4.14.1"
-splunktaucclib = "^6.2.0"
-
-[tool.poetry.dev-dependencies]
-pylint = "^2.13.9"
-pylint-pytest = "^1.1.8"
-pytest = "^7.4.4"
-mypy = "^1.4"
-types-requests = "^2.31.0"
-types-PyYAML = "^6.0.12"
-types-chardet = "^5.0.4"
-types-simplejson = "^3.19.0"
-types-certifi = "^2021.10.8"
-mechanize = "^0.4.10"
-ksconf = "^0.13.10"
-splunk-add-on-ucc-framework = "^5.52.0"
-loguru = "^0.7.3"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.15.1"
-click = "^8.1.8"
+[dependency-groups]
+dev = [
+    "click>=8.1.8",
+    "codespell>=2.4.1",
+    "ksconf>=0.13.9",
+    "loguru>=0.7.3",
+    "mypy>=1.15.0",
+    "pytest>=8.3.4",
+    "ruff>=0.9.7",
+    "splunk-add-on-ucc-framework>=5.58.1",
+    "types-requests>=2.31.0.6",
+]
 
 [tool.pylint.MASTER]
 disable = "W0511"
 max-line-length = 200
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[project]
-name = "TA-pushover"
-description = "Pushover App for Splunk"
-license = "MIT"
-version = "0.0.2"
-authors = [{ name = "James Hodgkinson", email = "james@terminaloutcomes.com" }]
