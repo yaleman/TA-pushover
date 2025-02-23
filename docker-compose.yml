@@ -1,14 +1,15 @@
 ---
-version: "3.8"
-
 services:
   splunk:
-    image: splunk/splunk:latest
+    image: splunk/splunk:9.3
+    platform: linux/amd64
     restart: always
     environment:
       - SPLUNK_START_ARGS=--accept-license
       - SPLUNK_PASSWORD=HelloWorld123
-      - SPLUNK_APPS_URL=https://github.com/yaleman/TA-pushover/releases/download/latest/TA-pushover.tgz
+      - SPLUNK_APPS_URL=/tmp/TA-pushover.spl
     ports:
       - "8000:8000"
       - "18089:8089"
+    volumes:
+      - ./TA-pushover.spl:/tmp/TA-pushover.spl

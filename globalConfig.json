@@ -38,37 +38,8 @@
                                     "pattern": "^[a-zA-Z]\\w*$"
                                 }
                             ],
-                            "options": {
-                                "placeholder": "Required"
-                            },
                             "field": "name",
                             "help": "Enter a unique name for this app/user combination.",
-                            "required": true
-                        },
-                        {
-                            "type": "singleSelect",
-                            "label": "Example Environment",
-                            "options": {
-                                "disableSearch": true,
-                                "autoCompleteFields": [
-                                    {
-                                        "value": "login.example.com",
-                                        "label": "Value1"
-                                    },
-                                    {
-                                        "value": "test.example.com",
-                                        "label": "Value2"
-                                    },
-                                    {
-                                        "value": "other",
-                                        "label": "Other"
-                                    }
-                                ],
-                                "display": true
-                            },
-                            "help": "",
-                            "field": "custom_endpoint",
-                            "defaultValue": "login.example.com",
                             "required": true
                         },
                         {
@@ -79,7 +50,15 @@
                             "options": {
                                 "display": false
                             },
-                            "required": true
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of the app token should be 30 characters.",
+                                    "minLength": 30,
+                                    "maxLength": 30
+                                }
+                            ]
                         },
                         {
                             "type": "text",
@@ -89,7 +68,15 @@
                             "options": {
                                 "display": true
                             },
-                            "required": true
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of the user key should be 30 characters.",
+                                    "minLength": 30,
+                                    "maxLength": 30
+                                }
+                            ]
                         },
                         {
                             "type": "radio",
@@ -110,92 +97,6 @@
                                     }
                                 ],
                                 "display": true
-                            }
-                        },
-                        {
-                            "type": "multipleSelect",
-                            "label": "Example Multiple Select",
-                            "field": "account_multiple_select",
-                            "help": "This is an example multipleSelect for account entity",
-                            "required": true,
-                            "options": {
-                                "items": [
-                                    {
-                                        "value": "one",
-                                        "label": "Option One"
-                                    },
-                                    {
-                                        "value": "two",
-                                        "label": "Option Two"
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "type": "oauth",
-                            "field": "oauth",
-                            "label": "Not used",
-                            "options": {
-                                "auth_type": [
-                                    "basic",
-                                    "oauth"
-                                ],
-                                "basic": [
-                                    {
-                                        "oauth_field": "username",
-                                        "label": "Username",
-                                        "help": "Enter the username for this account.",
-                                        "field": "username"
-                                    },
-                                    {
-                                        "oauth_field": "password",
-                                        "label": "Password",
-                                        "encrypted": true,
-                                        "help": "Enter the password for this account.",
-                                        "field": "password"
-                                    },
-                                    {
-                                        "oauth_field": "security_token",
-                                        "label": "Security Token",
-                                        "encrypted": true,
-                                        "help": "Enter the security token.",
-                                        "field": "token"
-                                    }
-                                ],
-                                "oauth": [
-                                    {
-                                        "oauth_field": "client_id",
-                                        "label": "Client Id",
-                                        "field": "client_id",
-                                        "help": "Enter the Client Id for this account."
-                                    },
-                                    {
-                                        "oauth_field": "client_secret",
-                                        "label": "Client Secret",
-                                        "field": "client_secret",
-                                        "encrypted": true,
-                                        "help": "Enter the Client Secret key for this account."
-                                    },
-                                    {
-                                        "oauth_field": "redirect_url",
-                                        "label": "Redirect url",
-                                        "field": "redirect_url",
-                                        "help": "Copy and paste this URL into your app."
-                                    }
-                                ],
-                                "auth_code_endpoint": "/services/oauth2/authorize",
-                                "access_token_endpoint": "/services/oauth2/token",
-                                "oauth_timeout": 30,
-                                "oauth_state_enabled": false
-                            }
-                        },
-                        {
-                            "field": "example_help_link",
-                            "label": "",
-                            "type": "helpLink",
-                            "options": {
-                                "text": "Help Link",
-                                "link": "https://docs.splunk.com/Documentation"
                             }
                         }
                     ],
@@ -230,7 +131,15 @@
                                 ]
                             },
                             "defaultValue": "http",
-                            "field": "proxy_type"
+                            "field": "proxy_type",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Max length of proxy type is 50",
+                                    "minLength": 4,
+                                    "maxLength": 10
+                                }
+                            ]
                         },
                         {
                             "type": "text",
@@ -303,41 +212,7 @@
                     "title": "Proxy"
                 },
                 {
-                    "name": "logging",
-                    "entity": [
-                        {
-                            "type": "singleSelect",
-                            "label": "Log level",
-                            "options": {
-                                "disableSearch": true,
-                                "autoCompleteFields": [
-                                    {
-                                        "value": "DEBUG",
-                                        "label": "DEBUG"
-                                    },
-                                    {
-                                        "value": "INFO",
-                                        "label": "INFO"
-                                    },
-                                    {
-                                        "value": "WARNING",
-                                        "label": "WARNING"
-                                    },
-                                    {
-                                        "value": "ERROR",
-                                        "label": "ERROR"
-                                    },
-                                    {
-                                        "value": "CRITICAL",
-                                        "label": "CRITICAL"
-                                    }
-                                ]
-                            },
-                            "defaultValue": "INFO",
-                            "field": "loglevel"
-                        }
-                    ],
-                    "title": "Logging"
+                    "type": "loggingTab"
                 },
                 {
                     "name": "custom_tab",
@@ -354,10 +229,7 @@
                                     "minLength": 5
                                 }
                             ],
-                            "required": true,
-                            "options": {
-                                "placeholder": "Required"
-                            }
+                            "required": true
                         },
                         {
                             "field": "test_number",
@@ -372,10 +244,7 @@
                                     ]
                                 }
                             ],
-                            "required": true,
-                            "options": {
-                                "placeholder": "Required"
-                            }
+                            "required": true
                         },
                         {
                             "field": "test_regex",
@@ -448,33 +317,6 @@
                                 ],
                                 "display": true
                             }
-                        },
-                        {
-                            "field": "test_multiselect",
-                            "label": "Test Multiselect",
-                            "type": "multipleSelect",
-                            "options": {
-                                "delimiter": "|",
-                                "items": [
-                                    {
-                                        "value": "Option A",
-                                        "label": "Option A"
-                                    },
-                                    {
-                                        "value": "Option B",
-                                        "label": "Option B"
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "field": "test_help_link",
-                            "label": "",
-                            "type": "helpLink",
-                            "options": {
-                                "text": "Test Help Link",
-                                "link": "https://docs.splunk.com/Documentation"
-                            }
                         }
                     ]
                 }
@@ -489,7 +331,7 @@
             "table": {
                 "actions": [
                     "edit",
-                    "enable",
+                    "search",
                     "delete",
                     "clone"
                 ],
@@ -569,7 +411,7 @@
             "name": "pushover",
             "label": "Pushover Alert",
             "description": "Send an alert via Pushover.net.",
-            "activeResponse": {
+            "adaptiveResponse": {
                 "task": [
                     "Create",
                     "Update"
@@ -591,7 +433,8 @@
                     }
                 ],
                 "drilldownUri": "search?q=search%20index%3D\"_internal\"&earliest=0&latest=",
-                "sourcetype": "test:incident"
+                "sourcetype": "test:incident",
+                "supportsCloud": true
             },
             "entity": [
                 {
@@ -784,8 +627,8 @@
     "meta": {
         "name": "TA-pushover",
         "restRoot": "ta_pushover",
-        "version": "0.0.1",
+        "version": "0.0.0+a116812",
         "displayName": "Pushover App for Splunk",
-        "schemaVersion": "0.0.3"
+        "schemaVersion": "0.0.9"
     }
 }

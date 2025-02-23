@@ -1,3 +1,4 @@
+---
 name: "Package Splunk App"
 
 "on":
@@ -22,10 +23,8 @@ jobs:
           python-version: '3.9'
       - name: Package the app
         run: |
-          python --version
-          python -m pip install ksconf
-          find . -type f -name '*.conf' -exec ksconf check {} \;
-          ./package.sh
+          python -m pip install uv
+          ./ucc-build.sh
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -34,4 +33,5 @@ jobs:
           prerelease: true
           title: "Latest Build"
           files: |
-            TA-pushover.tgz
+            TA-pushover.spl
+        if: ( github.ref_type == 'tag' || github.ref == 'refs/heads/main' )

@@ -20,7 +20,6 @@ jobs:
           python-version: '3.9'
       - name: Running mypy
         run: |
-          python --version
-          python -m pip install --quiet --no-cache-dir --upgrade poetry
-          poetry install
-          find ./package/ -type f -name '*.py' -exec poetry run mypy --strict "{}" \;
+          python -m pip install --quiet --no-cache-dir --upgrade uv
+          find ./package/ -type f -name '*.py' -exec uv run  mypy --strict "{}" \;
+          uv run mypy --strict ./tests/
