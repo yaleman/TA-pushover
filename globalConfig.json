@@ -44,12 +44,9 @@
                         },
                         {
                             "type": "text",
-                            "label": "Pushover Application",
+                            "label": "Pushover Application token",
                             "help": "Enter the Application Token.",
                             "field": "app_token",
-                            "options": {
-                                "display": false
-                            },
                             "required": true,
                             "validators": [
                                 {
@@ -77,27 +74,6 @@
                                     "maxLength": 30
                                 }
                             ]
-                        },
-                        {
-                            "type": "radio",
-                            "label": "Example Radio",
-                            "field": "account_radio",
-                            "defaultValue": "yes",
-                            "help": "This is an example radio button for the account entity",
-                            "required": true,
-                            "options": {
-                                "items": [
-                                    {
-                                        "value": "yes",
-                                        "label": "Yes"
-                                    },
-                                    {
-                                        "value": "no",
-                                        "label": "No"
-                                    }
-                                ],
-                                "display": true
-                            }
                         }
                     ],
                     "title": "Account"
@@ -464,14 +440,6 @@
                     "help": "If unset, the URL will be displayed."
                 },
                 {
-                    "type": "checkbox",
-                    "label": "All Incidents",
-                    "field": "all_incidents",
-                    "defaultValue": 0,
-                    "required": false,
-                    "help": "Tick if you want to update all incidents/problems"
-                },
-                {
                     "type": "singleSelect",
                     "label": "Priority",
                     "field": "priority",
@@ -615,7 +583,7 @@
                     "type": "singleSelectSplunkSearch",
                     "label": "Select Account",
                     "field": "account",
-                    "search": "| rest /servicesNS/nobody/ta_pushover/TA-pushover_account | dedup title",
+                    "search": "| rest /servicesNS/nobody/TA-pushover/ta_pushover_account | table title | sort title",
                     "valueField": "title",
                     "labelField": "title",
                     "help": "Select the account from the dropdown",
@@ -627,7 +595,7 @@
     "meta": {
         "name": "TA-pushover",
         "restRoot": "ta_pushover",
-        "version": "0.0.0+a116812",
+        "version": "0.0.2",
         "displayName": "Pushover App for Splunk",
         "schemaVersion": "0.0.9"
     }
