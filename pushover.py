@@ -1,6 +1,6 @@
-""" pushover alert action for splunk """
+"""pushover alert action for splunk"""
 
-#pylint: disable=logging-fstring-interpolation
+# pylint: disable=logging-fstring-interpolation
 
 import json
 import logging
@@ -11,12 +11,13 @@ from typing import Any, Dict, Optional
 from urllib.parse import urlparse
 import requests
 
-from splunklib import client # type: ignore
-from splunklib.binding import ResponseReader # type: ignore
+from splunklib import client  # type: ignore
+from splunklib.binding import ResponseReader  # type: ignore
 
 
-class Pushover():
-    """ pushover handler """
+class Pushover:
+    """pushover handler"""
+
     api_url = "https://api.pushover.net/1/messages.json"
 
     # TODO: handle http 429 - rate limiting
@@ -25,12 +26,12 @@ class Pushover():
     # X-Limit-App-Remaining: 7496
     # X-Limit-App-Reset: 1393653600
 
-    def __init__(self, token: Optional[str]=None) -> None:
-        """ setter """
+    def __init__(self, token: Optional[str] = None) -> None:
+        """setter"""
         self.token = token
 
-    def get_rate_limit(self, token: Optional[str]=None) -> Dict[str,str]:
-        """ gets the rate limit endpoint """
+    def get_rate_limit(self, token: Optional[str] = None) -> Dict[str, str]:
+        """gets the rate limit endpoint"""
         if token is not None:
             check_token = token
         elif self.token is not None:
@@ -41,17 +42,22 @@ class Pushover():
         return requests.get(url).json()
 
     @classmethod
-    def check_lengths(cls, message_payload: Dict[str,str]) -> None:
-        """ checks for lengths of things """
+    def check_lengths(cls, message_payload: Dict[str, str]) -> None:
+        """checks for lengths of things"""
         length_checks = {
-            "title" : 250,
-            "message" : 1024,
-            "url" : 512,
-            "url_title" : 100,
+            "title": 250,
+            "message": 1024,
+            "url": 512,
+            "url_title": 100,
         }
         for key_value, max_length in length_checks.items():
-            if key_value in message_payload and len(str(message_payload[key_value])) > max_length:
-                raise ValueError(f"Length of {key_value} is too long {len(str(message_payload[key_value]))} > {max_length}")
+            if (
+                key_value in message_payload
+                and len(str(message_payload[key_value])) > max_length
+            ):
+                raise ValueError(
+                    f"Length of {key_value} is too long {len(str(message_payload[key_value]))} > {max_length}"
+                )
 
     @classmethod
     def validate_msg_format(
@@ -59,8 +65,8 @@ class Pushover():
         content: Dict[str, str],
         html_value: bool,
         monospace_value: bool,
-        ) -> None:
-        """ validates the html and monospace fields """
+    ) -> None:
+        """validates the html and monospace fields"""
         if monospace_value and html_value:
             raise ValueError("You need to set either monospace or html, not both")
         if monospace_value:
@@ -72,43 +78,43 @@ class Pushover():
     def validate_priority(
         cls,
         content: Dict[str, str],
-        priority_value: Optional[int]=None,
-        ) -> None:
-        """ validates the priority field """
+        priority_value: Optional[int] = None,
+    ) -> None:
+        """validates the priority field"""
         if priority_value is not None:
             # priority needs to be between -2 and 2
-            if (-2 <= priority_value  <= 2) is False:
+            if (-2 <= priority_value <= 2) is False:
                 raise ValueError("Priority needs to be between -2 and 2")
             content["priority"] = str(priority_value)
 
-    #pylint: disable=too-many-arguments,too-many-branches,too-many-locals
+    # pylint: disable=too-many-arguments,too-many-branches,too-many-locals
     def send(
         self,
         token: str,
         user: str,
         message: str,
         # attachment: Optional[str]=None, # yeah nah
-        priority: int=0,
-        html: bool=False,
-        monospace: bool=False,
-        device: Optional[str]=None,
-        sound: str="none",
-        timestamp: Optional[int]=None,
-        title: Optional[str]=None,
-        url: Optional[str]=None,
-        url_title: Optional[str]=None,
+        priority: int = 0,
+        html: bool = False,
+        monospace: bool = False,
+        device: Optional[str] = None,
+        sound: str = "none",
+        timestamp: Optional[int] = None,
+        title: Optional[str] = None,
+        url: Optional[str] = None,
+        url_title: Optional[str] = None,
     ) -> None:
-        """ send a pushover message
+        """send a pushover message
 
         API docs here: https://pushover.net/api#messages"""
 
         message_payload = {
-            "token" : token,
-            "user" : user,
-            "message" :  message,
+            "token": token,
+            "user": user,
+            "message": message,
         }
         if sound != "_" and sound is not None:
-            message_payload["sound"]=sound
+            message_payload["sound"] = sound
 
         if device is not None:
             message_payload["device"] = device
@@ -127,67 +133,81 @@ class Pushover():
         self.validate_msg_format(message_payload, html, monospace)
         self.check_lengths(message_payload)
 
-        logger.debug(f"event message payload: {json.dumps(message_payload, default=str)}")
+        logger.debug(
+            f"event message payload: {json.dumps(message_payload, default=str)}"
+        )
 
         message_send_response = requests.post(
             self.api_url,
             json=message_payload,
-            )
+        )
         logger.info("message send response content: %s", message_send_response.content)
 
         responsedata = message_send_response.json()
-        if not "status" in responsedata:
-            raise ValueError(f"status not returned in response to m essage: {responsedata}")
-        if responsedata["status"] != 1 and responsedata["status"] != "1":
-            raise ValueError(f"Status code returned from API was: '{responsedata['status']}'")
+        if "status" not in responsedata:
+            raise ValueError(
+                f"status not returned in response to message: {responsedata}"
+            )
+        if responsedata["status"] != 1:
+            raise ValueError(
+                f"Status code returned from API was: '{responsedata['status']}'"
+            )
+
 
 def pull_config(
     service: client.Service,
     app: str,
     log_class: logging.Logger,
-    ) -> Dict[str, str]:
-    """ pulls the config from the app endpoint """
+) -> Dict[str, str]:
+    """pulls the config from the app endpoint"""
     response = service.request(
         "properties/ta_pushover_settings/additional_parameters",
         app=app,
         body={
-            "output_mode" : "json",
-        }
+            "output_mode": "json",
+        },
     )
     responsebody: ResponseReader = response["body"]
     try:
         response_dict: Dict[str, Any] = json.loads(responsebody.read())
         if "entry" in response_dict:
-            configdata: Dict[str,Any] = {}
+            configdata: Dict[str, Any] = {}
             for element in response_dict["entry"]:
                 configdata[element["name"]] = element["content"]
     except json.JSONDecodeError as json_error:
-        log_class.error("error when JSON decoding configuration pulled from Splunk REST API: %s", json_error)
+        log_class.error(
+            "error when JSON decoding configuration pulled from Splunk REST API: %s",
+            json_error,
+        )
         sys.exit(1)
     return configdata
+
 
 def get_password(
     service: client.Service,
     app: str,
-    ) -> str:
-    """ pulls the passwords from the app endpoint """
+) -> str:
+    """pulls the passwords from the app endpoint"""
     response = service.request(
         "storage/passwords",
         app=app,
         body={
-            "output_mode" : "json",
-        }
+            "output_mode": "json",
+        },
     )
     responsebody: ResponseReader = response["body"]
     try:
         response_dict: Dict[str, Any] = json.loads(responsebody.read())
         if "entry" in response_dict:
             for entry in response_dict["entry"]:
-                if "application_token" in entry.get("content",{}).get("clear_password",{}):
+                if "application_token" in entry.get("content", {}).get(
+                    "clear_password", {}
+                ):
                     password_data = json.loads(entry["content"]["clear_password"])
                     return password_data["application_token"]
     except json.JSONDecodeError as json_error:
-        logger.error("JSONDecodeError handling REST call to storage/passwords: %s",
+        logger.error(
+            "JSONDecodeError handling REST call to storage/passwords: %s",
             json_error,
         )
     logger.error(
@@ -195,13 +215,14 @@ def get_password(
     )
     return sys.exit(1)
 
+
 def coalesce(
-    key:str,
-    event_data: Dict[str,str],
-    app_data: Dict[str,str],
-    default_value: Optional[str] = None
-    ) -> Optional[str]:
-    """ coalesce dicts, order is event -> config -> None """
+    key: str,
+    event_data: Dict[str, str],
+    app_data: Dict[str, str],
+    default_value: Optional[str] = None,
+) -> Optional[str]:
+    """coalesce dicts, order is event -> config -> None"""
     coalescelogger = logging.getLogger("coalesce")
     coalescelogger.setLevel(logging.DEBUG)
     if event_data.get(key) is not None:
@@ -212,23 +233,24 @@ def coalesce(
         return app_data[key]
     return default_value
 
+
 # pylint: disable=too-many-arguments
 def send_pushover_alert(
     logger_class: logging.Logger,
     user_key: str,
     app_token: str,
     event_config: Dict[str, str],
-    event: Dict[str, Any]
-    ) -> None:
-    """ bleep bloop """
-    logger_class.info("Alert action pushover started.")
+    event: Dict[str, Any],
+) -> None:
+    """bleep bloop"""
+    logger_class.info("Alert action pushover send_pushover_event started.")
 
     if "message" not in event:
         raise ValueError("You need to have a message field in each event.")
 
     logger_class.error(f"event={event}")
 
-    html= False
+    html = False
     if coalesce("html", event, event_config) is not None:
         html = bool(coalesce("html", event, event_config))
     monospace = False
@@ -261,11 +283,10 @@ def send_pushover_alert(
         url_title=coalesce("url_title", event, event_config),
     )
 
+
 if __name__ == "__main__":
     # setup logging
-    logger = logging.getLogger(
-        "TA-pushover"
-        )
+    logger = logging.getLogger("TA-pushover")
     logger.setLevel(logging.DEBUG)
     for value in sys.argv:
         logger.debug(f"argv: {value}")
@@ -283,12 +304,14 @@ if __name__ == "__main__":
             host=parsed_url.hostname,
             port=parsed_url.port,
             scheme=parsed_url.scheme,
-            token=config["session_key"]
-
+            token=config["session_key"],
         )
     # if it fails SSL verification, fall back
     except SSLCertVerificationError:
-        logger.debug("Failed to connect to REST API (%s), ssl verification error", config["server_uri"])
+        logger.debug(
+            "Failed to connect to REST API (%s), ssl verification error",
+            config["server_uri"],
+        )
         splunkclient = client.connect(
             host=parsed_url.hostname,
             port=parsed_url.port,
@@ -304,7 +327,7 @@ if __name__ == "__main__":
     )
     application_token = get_password(splunkclient, "TA-pushover")
 
-    logger.debug("#"*50)
+    logger.debug("#" * 50)
     logger.debug("app config")
     logger.debug(
         json.dumps(
@@ -313,7 +336,7 @@ if __name__ == "__main__":
             default=str,
         )
     )
-    logger.debug("#"*50)
+    logger.debug("#" * 50)
     logger.debug("events")
     logger.debug(
         json.dumps(

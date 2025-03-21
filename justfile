@@ -40,3 +40,7 @@ semgrep:
     --exclude-rule "python.django.security.audit.xss.var-in-script-tag.var-in-script-tag" \
     --exclude-rule "python.flask.security.xss.audit.template-href-var.template-href-var" \
     --exclude-rule "python.flask.security.xss.audit.template-href-var.template-href-var"
+
+run_splunk:
+    docker compose up -d
+    docker compose logs -f

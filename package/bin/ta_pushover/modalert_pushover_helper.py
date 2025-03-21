@@ -1,4 +1,4 @@
-""" helper """
+"""helper"""
 
 import json
 import logging
@@ -200,10 +200,16 @@ def process_event(helper: Any, *args: Any, **kwargs: Any) -> int:
     [sample_code_macro:end]
     """
 
-    helper.log_info("Alert action pushover started.")
+    helper.log_info("Alert action pushover process_event started.")
+
+    account = helper.get_param("account")
+    message = helper.get_param("message")
+
+    helper.log_info(f"account={account}")
+    helper.log_info(f"message={message}")
 
     events = helper.get_events()
     for event in events:
-        helper.log_info(f"event={event}")
+        helper.log_info(f"got {event=}")
 
     return 0
