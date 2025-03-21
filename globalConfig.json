@@ -387,44 +387,20 @@
             "name": "pushover",
             "label": "Pushover Alert",
             "description": "Send an alert via Pushover.net.",
-            "adaptiveResponse": {
-                "task": [
-                    "Create",
-                    "Update"
-                ],
-                "supportsAdhoc": true,
-                "subject": [
-                    "endpoint"
-                ],
-                "category": [
-                    "Information Conveyance"
-                ],
-                "technology": [
-                    {
-                        "version": [
-                            "1.0.0"
-                        ],
-                        "product": "Test Incident Update",
-                        "vendor": "Unset"
-                    }
-                ],
-                "drilldownUri": "search?q=search%20index%3D\"_internal\"&earliest=0&latest=",
-                "sourcetype": "test:incident",
-                "supportsCloud": true
-            },
             "entity": [
                 {
                     "type": "text",
                     "label": "Message",
                     "field": "message",
                     "required": true,
-                    "help": "Please enter your name"
+                    "help": "The message to send."
                 },
                 {
                     "type": "text",
                     "label": "Alert Title",
                     "field": "title",
-                    "required": false
+                    "required": false,
+                    "help": "If unset, the configured Pushover app name will be used."
                 },
                 {
                     "type": "text",
@@ -468,7 +444,7 @@
                         ]
                     },
                     "help": "Please select the priority",
-                    "required": true,
+                    "required": false,
                     "defaultValue": 0
                 },
                 {

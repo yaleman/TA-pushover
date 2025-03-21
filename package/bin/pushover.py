@@ -1,9 +1,8 @@
-""" Pushover alert action for Splunk"""
+"""Pushover alert action for Splunk"""
 
 # Always put this line at the beginning of this file
-# import import_declare_test
+import import_declare_test  # noqa: F401
 
-# import os
 import sys
 import traceback
 from typing import Any
@@ -37,15 +36,16 @@ class AlertActionWorkerpushover(ModularAlertBase):  # type: ignore
         """validates input parameters"""
 
         if not self.get_param("message"):
-            self.log_error("message is a mandatory parameter, but its value is None.")
+            self.log_error(
+                "'message' is a mandatory parameter, but its value is missing."
+            )
+            self.log_error("Got the following configuration: %s" % self.configuration)
             return False
 
-        # if not self.get_param("title"):
-        # self.log_error('action is a mandatory parameter, but its value is None.')
-        # return False
-
         if not self.get_param("account"):
-            self.log_error("account is a mandatory parameter, but its value is None.")
+            self.log_error(
+                "'account' is a mandatory parameter, but its value is missing."
+            )
             return False
         return True
 
@@ -57,9 +57,8 @@ class AlertActionWorkerpushover(ModularAlertBase):  # type: ignore
             status = modalert_pushover_helper.process_event(self, *args, **kwargs)
         except (AttributeError, TypeError) as attribute_error:
             self.log_error(
-                f"Error: {attribute_error}. Please double check spelling and also verify that a compatible version of Splunk_SA_CIM is installed.",
+                f"Error: {attribute_error}.",
             )
-
             return 4
         except Exception as error:  # pylint: disable=broad-except
             msg = "Unexpected error: {}."
