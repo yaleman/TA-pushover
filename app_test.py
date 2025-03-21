@@ -25,6 +25,7 @@ class ConfigFile(TypedDict):
     splunk_username: str
     splunk_password: str
 
+    pushover_app_name: str
     pushover_user_key: str
     pushover_application_token: str
     pushover_device_name: Optional[str]
@@ -43,8 +44,6 @@ def load_config() -> ConfigFile:
 
 
 # log in
-
-
 def configure_app(
     config: ConfigFile,
     splunk: client,
@@ -52,20 +51,24 @@ def configure_app(
     """does the configure app thing"""
     app_config_data = {
         "output_mode": "json",
-        "user_key": config["pushover_user_key"],
-        "application_token": config["pushover_application_token"],
+        "name": config["pushover_app_name"],
+        "user": config["pushover_user_key"],
+        "app_token": config["pushover_application_token"],
     }
     if "pushover_device_name" in config and config["pushover_device_name"] is not None:
         app_config_data["device_name"] = config["pushover_device_name"]
 
     app = splunk.post(
-        "/servicesNS/nobody/TA-pushover/TA_pushover_settings/additional_parameters",
+        "/servicesNS/nobody/TA-pushover/ta_pushover_account/additional_parameters",
         body=app_config_data,
     )
     if "status" not in app:
         raise ValueError("No status result after attempting to configure app")
-    if app["status"] != 200:
-        logger.error("Didn't get a 200 back from configuring the app")
+    if app["status"] not in [200, 201]:
+        logger.error(
+            "Didn't get a 200-ish back from configuring the app (got {})", app["status"]
+        )
+        logger.error(app["body"])
         return
     if "body" in app:
         print_results(app["body"])
@@ -85,7 +88,7 @@ def install_app(
 ) -> None:
     """installs app"""
     print(f"oh no {splunk}")
-    url = f"http://{config['splunk_hostname']}:{config['splunk_port']}/en-GB/manager/appinstall/_upload"
+    url = f"https://{config['splunk_hostname']}:{config['splunk_port']}/en-GB/manager/appinstall/_upload"
     params = {
         "force": 1,
         "appfile": None,  # file bit
@@ -94,6 +97,7 @@ def install_app(
         response = requests.post(
             url,
             params=params,
+            verify=False,
             files=[
                 (filename, f"./{filename}"),
             ],
@@ -104,7 +108,7 @@ def install_app(
         )
         print(response)
     except requests.exceptions.ConnectionError as connection_error:
-        logger.error(connection_error)
+        logger.error("Failed to connect to {}: {}", url, connection_error)
         sys.exit(1)
 
 
@@ -119,11 +123,62 @@ def print_results(results_object: Any) -> None:
             print(result.get("_raw"))
 
 
+def send_and_check(splunk: client.Service) -> None:
+    """send and check"""
+    logger.info("Trying to send an alert")
+
+    search_config = {
+        "adhoc_search_level": "verbose",
+        "count": 0,
+        "output_mode": "json",
+    }
+    alert_job = splunk.jobs.oneshot(
+        """| makeresults
+        | eval message="Please delete, sent at "+strftime(_time,"%Y-%m-%d %H:%M:%S %Z"), title="TA-pushover test"
+        | eval url_title="hello", url="https://google.com", priority=-1, sound="none"
+        | sendalert pushover param.message=message, param.account=test param.url_title=url_title
+        """,
+        **search_config,
+    )
+    print_results(alert_job)
+
+    print("Waiting a few seconds...")
+    sleep(3)
+
+    logger.info("Pulling internal logs")
+    job = splunk.jobs.export(
+        """
+search index=_internal source=*/splunkd.log OR sourcetype=splunk_search_messages
+NOT TERM(TailReader)
+NOT "*splunk-dashboard-studio*" TERM(ExecProcessor)  OR TERM(SearchMessages)
+NOT TERM(cron) NOT "New scheduled exec process" NOT "*IntrospectionGenerator*"
+NOT "interval: run once" NOT "interval: * ms"
+| sort _time
+""",
+        **search_config,
+    )
+
+    print_results(job)
+
+    logger.info("Pulling source logs")
+    job = splunk.jobs.export(
+        """
+search index=_internal source="/opt/splunk/var/log/splunk/pushover_modalert.log"
+| sort _time
+""",
+        **search_config,
+    )
+
+    print_results(job)
+
+
 @click.command()
 @click.option("--install", is_flag=True, default=False, help="install the app")
+@click.option("--send", is_flag=True, default=False, help="Just send the test alert")
 def main(
     install: bool = False,
-):
+    send: bool = False,
+) -> None:
     """main function"""
     configuration = load_config()
 
@@ -156,46 +211,15 @@ def main(
             filename="TA-pushover.spl",
         )
         sys.exit(0)
-    try:
-        configure_app(configuration, splunk)
-    except Exception as error:
-        logger.error("Failed to configure app: {}", error)
-        sys.exit(1)
 
-    logger.info("Trying to send an alert")
+    if not send:
+        try:
+            configure_app(configuration, splunk)
+        except Exception as error:
+            logger.error("Failed to configure app: {}", error)
+            sys.exit(1)
 
-    search_config = {
-        "adhoc_search_level": "verbose",
-        "count": 0,
-        "output_mode": "json",
-    }
-    alert_job = splunk.jobs.oneshot(
-        """| makeresults
-        | eval message="Please delete, sent at "+strftime(_time,"%Y-%m-%d %H:%M:%S %Z"), title="TA-pushover test"
-        | eval url_title="hello", url="https://google.com", priority=-1, sound="none"
-        | sendalert pushover
-        """,
-        **search_config,
-    )
-    print_results(alert_job)
-
-    print("Waiting a few seconds...")
-    sleep(3)
-
-    print("Pulling internal logs")
-    job = splunk.jobs.export(
-        """
-search index=_internal source=*/splunkd.log OR sourcetype=splunk_search_messages
-NOT TERM(TailReader)
-NOT "*splunk-dashboard-studio*" TERM(ExecProcessor)  OR TERM(SearchMessages)
-NOT TERM(cron) NOT "New scheduled exec process" NOT "*IntrospectionGenerator*"
-NOT "interval: run once" NOT "interval: * ms"
-| sort _time
-""",
-        **search_config,
-    )
-
-    print_results(job)
+    send_and_check(splunk)
 
 
 if __name__ == "__main__":
