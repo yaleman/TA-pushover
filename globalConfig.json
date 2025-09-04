@@ -571,7 +571,7 @@
     "meta": {
         "name": "TA-pushover",
         "restRoot": "ta_pushover",
-        "version": "0.0.2",
+        "version": "0.0.0+af0e58f",
         "displayName": "Pushover App for Splunk",
         "schemaVersion": "0.0.9"
     }
