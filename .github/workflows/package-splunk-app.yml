@@ -5,6 +5,9 @@ name: "Package Splunk App"
   push:
     branches:
       - main  # Set a branch to deploy
+  pull_request:
+    branches:
+      - main
 
 jobs:
   package:
@@ -34,4 +37,4 @@ jobs:
           title: "Latest Build"
           files: |
             TA-pushover.spl
-        if: ( github.ref_type == 'tag' || github.ref == 'refs/heads/main' )
+        if: ${{ github.event_name != 'pull_request' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main') }}
