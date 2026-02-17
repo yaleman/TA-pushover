@@ -1,9 +1,13 @@
+---
 name: "Package Splunk App"
 
 "on":
   push:
     branches:
       - main  # Set a branch to deploy
+  pull_request:
+    branches:
+      - main
 
 jobs:
   package:
@@ -22,10 +26,15 @@ jobs:
           python-version: '3.9'
       - name: Package the app
         run: |
-          python --version
-          python -m pip install ksconf
-          find . -type f -name '*.conf' -exec ksconf check {} \;
-          ./package.sh
+          python -m pip install uv
+          ./ucc-build.sh
+
+      - name: Upload packaged app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TA-pushover-spl
+          path: TA-pushover.spl
+          if-no-files-found: error
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -34,4 +43,5 @@ jobs:
           prerelease: true
           title: "Latest Build"
           files: |
-            TA-pushover.tgz
+            TA-pushover.spl
+        if: ${{ github.event_name != 'pull_request' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main') }}
