@@ -1,7 +1,10 @@
 """Pushover alert action for Splunk"""
 
 # Always put this line at the beginning of this file
-import import_declare_test  # noqa: F401
+try:
+    import import_declare_test  # type: ignore[import-not-found]  # noqa: F401
+except ImportError:
+    pass
 
 import sys
 import traceback

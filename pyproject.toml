@@ -29,3 +29,9 @@ dev = [
 [tool.pylint.MASTER]
 disable = "W0511"
 max-line-length = 200
+
+[tool.mypy]
+mypy_path = ["package/bin"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

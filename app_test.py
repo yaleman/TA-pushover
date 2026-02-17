@@ -125,7 +125,7 @@ def print_results(results_object: Any) -> None:
 
 def send_and_check(splunk: client.Service) -> None:
     """send and check"""
-    logger.info("Trying to send an alert")
+    logger.info("Trying to send an alert action notification")
 
     search_config = {
         "adhoc_search_level": "verbose",
@@ -141,6 +141,13 @@ def send_and_check(splunk: client.Service) -> None:
         **search_config,
     )
     print_results(alert_job)
+
+    logger.info("Trying to send a custom command notification")
+    command_job = splunk.jobs.oneshot(
+        """| pushover_send account=test message="Please delete, pushover_send smoke test" priority=0 sound=none""",
+        **search_config,
+    )
+    print_results(command_job)
 
     print("Waiting a few seconds...")
     sleep(3)
