@@ -13,6 +13,7 @@ from typing import Any, Optional, TypedDict
 import click
 from loguru import logger
 import requests
+from splunklib.binding import HTTPError  # type: ignore[import-untyped]
 from splunklib import client  # type: ignore[import-untyped]
 from splunklib.results import JSONResultsReader, Message  # type: ignore[import-untyped]
 
@@ -48,20 +49,35 @@ def configure_app(
     config: ConfigFile,
     splunk: client,
 ) -> None:
-    """does the configure app thing"""
-    app_config_data = {
+    """Create or update the UCC account used by the alert action."""
+    account_name = config["pushover_app_name"]
+    account_endpoint = "/servicesNS/nobody/TA-pushover/ta_pushover_account"
+    account_values = {
         "output_mode": "json",
-        "name": config["pushover_app_name"],
         "user": config["pushover_user_key"],
         "app_token": config["pushover_application_token"],
     }
-    if "pushover_device_name" in config and config["pushover_device_name"] is not None:
-        app_config_data["device_name"] = config["pushover_device_name"]
 
-    app = splunk.post(
-        "/servicesNS/nobody/TA-pushover/ta_pushover_account/additional_parameters",
-        body=app_config_data,
-    )
+    operation = "created"
+    try:
+        app = splunk.post(
+            account_endpoint,
+            body={
+                "name": account_name,
+                **account_values,
+            },
+        )
+    except HTTPError as error:
+        error_message = str(error)
+        if "already in use" not in error_message and "409" not in error_message:
+            raise
+
+        operation = "updated"
+        app = splunk.post(
+            f"{account_endpoint}/{account_name}",
+            body=account_values,
+        )
+
     if "status" not in app:
         raise ValueError("No status result after attempting to configure app")
     if app["status"] not in [200, 201]:
@@ -73,7 +89,11 @@ def configure_app(
     if "body" in app:
         print_results(app["body"])
 
-    logger.info("Successfully configured the Pushover app!")
+    logger.info(
+        "Successfully configured the Pushover app account '{}' ({}).",
+        account_name,
+        operation,
+    )
 
 
 def get_baseurl(config: ConfigFile) -> str:
@@ -141,13 +161,6 @@ def send_and_check(splunk: client.Service) -> None:
         **search_config,
     )
     print_results(alert_job)
-
-    logger.info("Trying to send a custom command notification")
-    command_job = splunk.jobs.oneshot(
-        """| pushover_send account=test message="Please delete, pushover_send smoke test" priority=0 sound=none""",
-        **search_config,
-    )
-    print_results(command_job)
 
     print("Waiting a few seconds...")
     sleep(3)

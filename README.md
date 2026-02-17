@@ -2,7 +2,6 @@
 
 Splunk app that sends notifications through the [Pushover.net](https://pushover.net/) API via:
 - Alert action: `sendalert pushover`
-- Custom search command: `pushover_send`
 
 ## Build
 
