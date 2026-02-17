@@ -58,6 +58,9 @@ uv run ucc-gen build \
     --ta-version "${TA_VERSION}" \
     --output "${BUILD_OUTPUT_DIR}"
 
+# Remove unnecessary top-level package marker from built app before packaging.
+rm -f "${BUILD_OUTPUT_DIR}/TA-pushover/__init__.py"
+
 while IFS= read -r -d '' conf_file; do
     uv run ksconf check "${conf_file}"
 done < <(find "${BUILD_OUTPUT_DIR}/TA-pushover" -type f -name "*.conf" -print0)
