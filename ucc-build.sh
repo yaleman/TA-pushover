@@ -61,6 +61,12 @@ uv run ucc-gen build \
 # Remove unnecessary top-level package marker from built app before packaging.
 rm -f "${BUILD_OUTPUT_DIR}/TA-pushover/__init__.py"
 
+# Compress large licenses payload from UCC frontend build to reduce package size.
+LICENSES_TXT="${BUILD_OUTPUT_DIR}/TA-pushover/appserver/static/js/build/licenses.txt"
+if [[ -f "${LICENSES_TXT}" ]]; then
+    bzip2 -f "${LICENSES_TXT}"
+fi
+
 while IFS= read -r -d '' conf_file; do
     uv run ksconf check "${conf_file}"
 done < <(find "${BUILD_OUTPUT_DIR}/TA-pushover" -type f -name "*.conf" -print0)
