@@ -143,7 +143,10 @@ def print_results(results_object: Any) -> None:
             print(result.get("_raw"))
 
 
-def send_and_check(splunk: client.Service) -> None:
+def send_and_check(
+    splunk: client.Service,
+    account_name: str,
+) -> None:
     """send and check"""
     logger.info("Trying to send an alert action notification")
 
@@ -152,12 +155,13 @@ def send_and_check(splunk: client.Service) -> None:
         "count": 0,
         "output_mode": "json",
     }
-    alert_job = splunk.jobs.oneshot(
-        """| makeresults
+    alert_search = f"""| makeresults
         | eval message="Please delete, sent at "+strftime(_time,"%Y-%m-%d %H:%M:%S %Z"), title="TA-pushover test"
         | eval url_title="hello", url="https://google.com", priority=-1, sound="none"
-        | sendalert pushover param.message=message, param.account=test param.url_title=url_title
-        """,
+        | sendalert pushover param.message=message, param.account={account_name} param.url_title=url_title
+        """
+    alert_job = splunk.jobs.oneshot(
+        alert_search,
         **search_config,
     )
     print_results(alert_job)
@@ -239,7 +243,10 @@ def main(
             logger.error("Failed to configure app: {}", error)
             sys.exit(1)
 
-    send_and_check(splunk)
+    send_and_check(
+        splunk,
+        account_name=configuration["pushover_app_name"],
+    )
 
 
 if __name__ == "__main__":
