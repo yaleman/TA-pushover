@@ -29,6 +29,13 @@ jobs:
           python -m pip install uv
           ./ucc-build.sh
 
+      - name: Upload packaged app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TA-pushover-spl
+          path: TA-pushover.spl
+          if-no-files-found: error
+
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
