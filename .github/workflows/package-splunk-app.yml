@@ -30,7 +30,7 @@ jobs:
           ./ucc-build.sh
 
       - name: Upload packaged app artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: TA-pushover-spl
           path: TA-pushover.spl
