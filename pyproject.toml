@@ -5,7 +5,7 @@ description = "Pushover App for Splunk"
 authors = [{ name = "James Hodgkinson", email = "james@terminaloutcomes.com" }]
 requires-python = ">=3.9"
 dependencies = [
-    "httplib2>=0.22.0",
+    "httplib2>=0.32.0",
     "requests>=2.31.0",
     "solnlib>=4.14.1",
     "splunk-sdk>=2.1.0",
