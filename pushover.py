@@ -12,8 +12,8 @@ from typing import Any
 from urllib.parse import urlparse
 
 import requests
-from splunklib import client  # type: ignore
-from splunklib.binding import ResponseReader  # type: ignore
+from splunklib import client
+from splunklib.binding import ResponseReader
 
 
 class Pushover:

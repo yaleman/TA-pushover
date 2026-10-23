@@ -49,7 +49,7 @@ def load_config() -> ConfigFile:
 # log in
 def configure_app(
     config: ConfigFile,
-    splunk: client,
+    splunk: client.Service,
 ) -> None:
     """Create or update the UCC account used by the alert action."""
     account_name = config["pushover_app_name"]

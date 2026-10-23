@@ -45,7 +45,10 @@ def event_value_or_literal(
     if configured_value is None:
         return None
     if event is not None:
-        event_value = event.get(configured_value)
+        if isinstance(event, str):
+            event_value = event
+        else:
+            event_value = event.get(configured_value)
         if event_value is not None and str(event_value) != "":
             return str(event_value)
     if configured_value == "":

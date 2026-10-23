@@ -2,7 +2,7 @@
 
 # Always put this line at the beginning of this file
 try:
-    import import_declare_test  # type: ignore[import-not-found]  # noqa: F401
+    import import_declare_test  # type: ignore[import-not-found]  # noqa: F401 # ty: ignore[unresolved-import]
 except ImportError:
     pass
 
@@ -11,11 +11,11 @@ import traceback
 from typing import Any
 
 import requests
-from splunktaucclib.alert_actions_base import ModularAlertBase  # type: ignore
-from ta_pushover import modalert_pushover_helper
+from splunktaucclib.alert_actions_base import ModularAlertBase
+from ta_pushover import modalert_pushover_helper  # ty: ignore[unresolved-import]
 
 
-class AlertActionWorkerpushover(ModularAlertBase):  # type: ignore
+class AlertActionWorkerpushover(ModularAlertBase):
     """pushover worker"""
 
     def __init__(self, ta_name: str, alert_name: str) -> None:

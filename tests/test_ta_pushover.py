@@ -178,7 +178,7 @@ def test_live_pushover_send_if_configured() -> None:
     token = os.getenv("PUSHOVER_TOKEN")
     user = os.getenv("PUSHOVER_USER")
     if token is None or user is None:
-        pytest.skip("PUSHOVER_TOKEN or PUSHOVER_USER is not set")
+        pytest.skip("PUSHOVER_TOKEN or PUSHOVER_USER is not set")  # ty: ignore[too-many-positional-arguments]
 
     response = PushoverClient().send(
         token=token,
