@@ -4,14 +4,15 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Mapping, Optional, Tuple
+from collections.abc import Mapping
+from typing import Any
 
 import requests
 
 PUSHOVER_API_URL = "https://api.pushover.net/1/messages.json"
 
 
-def _as_optional_string(value: Any) -> Optional[str]:
+def _as_optional_string(value: Any) -> str | None:
     if value is None:
         return None
     string_value = str(value)
@@ -39,8 +40,8 @@ def parse_priority(value: Any, default: int = 0) -> int:
 
 
 def event_value_or_literal(
-    configured_value: Optional[str], event: Optional[Mapping[str, Any]]
-) -> Optional[str]:
+    configured_value: str | None, event: Mapping[str, Any] | str
+) -> str | None:
     if configured_value is None:
         return None
     if event is not None:
@@ -52,13 +53,13 @@ def event_value_or_literal(
     return configured_value
 
 
-def extract_account_credentials(account_data: Mapping[str, Any]) -> Tuple[str, str]:
+def extract_account_credentials(account_data: Mapping[str, Any]) -> tuple[str, str]:
     user = _as_optional_string(account_data.get("user")) or _as_optional_string(
         account_data.get("username")
     )
-    app_token = _as_optional_string(account_data.get("app_token")) or _as_optional_string(
-        account_data.get("password")
-    )
+    app_token = _as_optional_string(
+        account_data.get("app_token")
+    ) or _as_optional_string(account_data.get("password"))
     if user is None:
         raise ValueError("Account is missing a Pushover user key")
     if app_token is None:
@@ -71,7 +72,7 @@ class PushoverClient:
 
     def __init__(
         self,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
         api_url: str = PUSHOVER_API_URL,
         timeout_seconds: int = 30,
     ) -> None:
@@ -95,7 +96,9 @@ class PushoverClient:
                 )
 
     @staticmethod
-    def validate_msg_format(message_payload: dict[str, str], html: bool, monospace: bool) -> None:
+    def validate_msg_format(
+        message_payload: dict[str, str], html: bool, monospace: bool
+    ) -> None:
         if monospace and html:
             raise ValueError("You need to set either monospace or html, not both")
         if monospace:
@@ -112,12 +115,12 @@ class PushoverClient:
         priority: int = 0,
         html: bool = False,
         monospace: bool = False,
-        device: Optional[str] = None,
-        sound: Optional[str] = None,
-        timestamp: Optional[int] = None,
-        title: Optional[str] = None,
-        url: Optional[str] = None,
-        url_title: Optional[str] = None,
+        device: str | None = None,
+        sound: str | None = None,
+        timestamp: int | None = None,
+        title: str | None = None,
+        url: str | None = None,
+        url_title: str | None = None,
     ) -> dict[str, Any]:
         message_payload: dict[str, str] = {
             "token": token,

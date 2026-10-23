@@ -4,16 +4,17 @@ from __future__ import annotations
 
 import os
 import sys
+from collections.abc import Iterator, Mapping
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Mapping, Optional
+from typing import Any
 
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from package.bin.ta_pushover.modalert_pushover_helper import process_event  # noqa: E402
-from package.bin.ta_pushover.pushover_common import (  # noqa: E402
+from package.bin.ta_pushover.modalert_pushover_helper import process_event
+from package.bin.ta_pushover.pushover_common import (
     PushoverClient,
     event_value_or_literal,
     extract_account_credentials,
@@ -22,12 +23,14 @@ from package.bin.ta_pushover.pushover_common import (  # noqa: E402
 
 
 class _FakeResponse:
-    def __init__(self, status_code: int, payload: Dict[str, Any], text: str = "") -> None:
+    def __init__(
+        self, status_code: int, payload: dict[str, Any], text: str = ""
+    ) -> None:
         self.status_code = status_code
         self._payload = payload
         self.text = text
 
-    def json(self) -> Dict[str, Any]:
+    def json(self) -> dict[str, Any]:
         return self._payload
 
 
@@ -37,14 +40,14 @@ class _FakeHelper:
         *,
         params: Mapping[str, str],
         account: Mapping[str, str],
-        events: Optional[List[Dict[str, str]]] = None,
+        events: list[dict[str, str]] | None = None,
     ) -> None:
         self._params = dict(params)
         self._account = dict(account)
         self._events = list(events or [])
-        self.logged: List[str] = []
+        self.logged: list[str] = []
 
-    def get_param(self, key: str) -> Optional[str]:
+    def get_param(self, key: str) -> str | None:
         return self._params.get(key)
 
     def get_user_credential_by_account_id(self, account_id: str) -> Mapping[str, str]:
@@ -52,7 +55,7 @@ class _FakeHelper:
             raise ValueError("wrong account requested")
         return self._account
 
-    def get_events(self) -> Iterator[Dict[str, str]]:
+    def get_events(self) -> Iterator[dict[str, str]]:
         return iter(self._events)
 
     def log_info(self, message: str) -> None:
@@ -83,9 +86,9 @@ def test_extract_account_credentials_supports_ucc_and_legacy_shapes() -> None:
 
 
 def test_pushover_client_send_success(monkeypatch: pytest.MonkeyPatch) -> None:
-    captured: Dict[str, Any] = {}
+    captured: dict[str, Any] = {}
 
-    def _fake_post(url: str, json: Dict[str, Any], timeout: int) -> _FakeResponse:
+    def _fake_post(url: str, json: dict[str, Any], timeout: int) -> _FakeResponse:
         captured["url"] = url
         captured["json"] = json
         captured["timeout"] = timeout
@@ -109,7 +112,7 @@ def test_pushover_client_send_success(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_pushover_client_send_failure(monkeypatch: pytest.MonkeyPatch) -> None:
-    def _fake_post(url: str, json: Dict[str, Any], timeout: int) -> _FakeResponse:
+    def _fake_post(url: str, json: dict[str, Any], timeout: int) -> _FakeResponse:
         del url, json, timeout
         return _FakeResponse(400, {"status": 0, "errors": ["bad request"]})
 
@@ -120,9 +123,9 @@ def test_pushover_client_send_failure(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_alert_process_event_sends(monkeypatch: pytest.MonkeyPatch) -> None:
-    sent_payloads: List[Dict[str, Any]] = []
+    sent_payloads: list[dict[str, Any]] = []
 
-    def _fake_send(self: PushoverClient, **kwargs: Any) -> Dict[str, Any]:
+    def _fake_send(self: PushoverClient, **kwargs: Any) -> dict[str, Any]:
         del self
         sent_payloads.append(kwargs)
         return {"status": 1}

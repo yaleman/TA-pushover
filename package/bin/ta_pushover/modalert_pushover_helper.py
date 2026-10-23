@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Iterator, Mapping, Optional
+from collections.abc import Iterator, Mapping
+from typing import Any
 
 from .pushover_common import (
     PushoverClient,
@@ -16,7 +17,7 @@ from .pushover_common import (
 Pushover = PushoverClient
 
 
-def _iter_events(helper: Any) -> Iterator[Dict[str, str]]:
+def _iter_events(helper: Any) -> Iterator[dict[str, str]]:
     events = helper.get_events()
     if events is None:
         yield {}
@@ -36,11 +37,11 @@ def _resolve_account(helper: Any, account_name: str) -> tuple[str, str]:
     if account_data is None:
         raise ValueError(f"Account '{account_name}' was not found")
     if not isinstance(account_data, Mapping):
-        raise ValueError(f"Account '{account_name}' returned an invalid record")
+        raise TypeError(f"Account '{account_name}' returned an invalid record")
     return extract_account_credentials(account_data)
 
 
-def _to_optional_int(value: Optional[str]) -> Optional[int]:
+def _to_optional_int(value: str | None) -> int | None:
     if value is None or value == "":
         return None
     return int(value)
@@ -98,7 +99,5 @@ def process_event(helper: Any, *args: Any, **kwargs: Any) -> int:
         )
         sent_count += 1
 
-    helper.log_info(
-        f"Sent {sent_count} Pushover message(s) using account '{account}'."
-    )
+    helper.log_info(f"Sent {sent_count} Pushover message(s) using account '{account}'.")
     return 0
