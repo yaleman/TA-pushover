@@ -1,0 +1,41 @@
+[tools]
+python = "3.9"
+uv = "latest"
+
+[tasks.semgrep]
+run = """semgrep ci --config auto \
+    --exclude-rule "yaml.github-actions.security.third-party-action-not-pinned-to-commit-sha.third-party-action-not-pinned-to-commit-sha" \
+    --exclude-rule "generic.html-templates.security.var-in-script-tag.var-in-script-tag" \
+    --exclude-rule "javascript.express.security.audit.xss.mustache.var-in-href.var-in-href" \
+    --exclude-rule "python.django.security.django-no-csrf-token.django-no-csrf-token" \
+    --exclude-rule "python.django.security.audit.xss.template-href-var.template-href-var" \
+    --exclude-rule "python.django.security.audit.xss.var-in-script-tag.var-in-script-tag" \
+    --exclude-rule "python.flask.security.xss.audit.template-href-var.template-href-var" \
+    --exclude-rule "python.flask.security.xss.audit.template-href-var.template-href-var"
+    """
+
+[tasks.run_splunk]
+run = ["docker compose up -d", "docker compose logs -f"]
+
+[tasks.run_e2e]
+run = "uv run python app_test.py --send"
+
+[tasks.codespell]
+run = """uv run codespell -c \
+    --ignore-words .codespell_ignore \
+    --skip='./.venv' --skip='./output/*' """
+
+[tasks.fmt]
+run = "uv run ruff format"
+
+[tasks.ty]
+depends = ["fmt"]
+run = "uv run ty check"
+
+
+[tasks.ruff]
+depends = ["fmt"]
+run = "uv run ruff check --fix"
+
+[tasks.check]
+depends = ["ruff", "ty", "codespell"]

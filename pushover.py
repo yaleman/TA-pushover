@@ -2,17 +2,18 @@
 
 # pylint: disable=logging-fstring-interpolation
 
+from __future__ import annotations
+
 import json
 import logging
-from ssl import SSLCertVerificationError
 import sys
-from typing import Any, Dict, Optional
-
+from ssl import SSLCertVerificationError
+from typing import Any
 from urllib.parse import urlparse
-import requests
 
-from splunklib import client  # type: ignore
-from splunklib.binding import ResponseReader  # type: ignore
+import requests
+from splunklib import client
+from splunklib.binding import ResponseReader
 
 
 class Pushover:
@@ -26,11 +27,11 @@ class Pushover:
     # X-Limit-App-Remaining: 7496
     # X-Limit-App-Reset: 1393653600
 
-    def __init__(self, token: Optional[str] = None) -> None:
+    def __init__(self, token: str | None = None) -> None:
         """setter"""
         self.token = token
 
-    def get_rate_limit(self, token: Optional[str] = None) -> Dict[str, str]:
+    def get_rate_limit(self, token: str | None = None) -> dict[str, str]:
         """gets the rate limit endpoint"""
         if token is not None:
             check_token = token
@@ -42,7 +43,7 @@ class Pushover:
         return requests.get(url).json()
 
     @classmethod
-    def check_lengths(cls, message_payload: Dict[str, str]) -> None:
+    def check_lengths(cls, message_payload: dict[str, str]) -> None:
         """checks for lengths of things"""
         length_checks = {
             "title": 250,
@@ -62,7 +63,7 @@ class Pushover:
     @classmethod
     def validate_msg_format(
         cls,
-        content: Dict[str, str],
+        content: dict[str, str],
         html_value: bool,
         monospace_value: bool,
     ) -> None:
@@ -77,8 +78,8 @@ class Pushover:
     @classmethod
     def validate_priority(
         cls,
-        content: Dict[str, str],
-        priority_value: Optional[int] = None,
+        content: dict[str, str],
+        priority_value: int | None = None,
     ) -> None:
         """validates the priority field"""
         if priority_value is not None:
@@ -93,16 +94,16 @@ class Pushover:
         token: str,
         user: str,
         message: str,
-        # attachment: Optional[str]=None, # yeah nah
+        # attachment: str | None=None, # yeah nah
         priority: int = 0,
         html: bool = False,
         monospace: bool = False,
-        device: Optional[str] = None,
+        device: str | None = None,
         sound: str = "none",
-        timestamp: Optional[int] = None,
-        title: Optional[str] = None,
-        url: Optional[str] = None,
-        url_title: Optional[str] = None,
+        timestamp: int | None = None,
+        title: str | None = None,
+        url: str | None = None,
+        url_title: str | None = None,
     ) -> None:
         """send a pushover message
 
@@ -158,7 +159,7 @@ def pull_config(
     service: client.Service,
     app: str,
     log_class: logging.Logger,
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """pulls the config from the app endpoint"""
     response = service.request(
         "properties/ta_pushover_settings/additional_parameters",
@@ -169,9 +170,9 @@ def pull_config(
     )
     responsebody: ResponseReader = response["body"]
     try:
-        response_dict: Dict[str, Any] = json.loads(responsebody.read())
+        response_dict: dict[str, Any] = json.loads(responsebody.read())
         if "entry" in response_dict:
-            configdata: Dict[str, Any] = {}
+            configdata: dict[str, Any] = {}
             for element in response_dict["entry"]:
                 configdata[element["name"]] = element["content"]
     except json.JSONDecodeError as json_error:
@@ -197,7 +198,7 @@ def get_password(
     )
     responsebody: ResponseReader = response["body"]
     try:
-        response_dict: Dict[str, Any] = json.loads(responsebody.read())
+        response_dict: dict[str, Any] = json.loads(responsebody.read())
         if "entry" in response_dict:
             for entry in response_dict["entry"]:
                 if "application_token" in entry.get("content", {}).get(
@@ -218,10 +219,10 @@ def get_password(
 
 def coalesce(
     key: str,
-    event_data: Dict[str, str],
-    app_data: Dict[str, str],
-    default_value: Optional[str] = None,
-) -> Optional[str]:
+    event_data: dict[str, str],
+    app_data: dict[str, str],
+    default_value: str | None = None,
+) -> str | None:
     """coalesce dicts, order is event -> config -> None"""
     coalescelogger = logging.getLogger("coalesce")
     coalescelogger.setLevel(logging.DEBUG)
@@ -239,8 +240,8 @@ def send_pushover_alert(
     logger_class: logging.Logger,
     user_key: str,
     app_token: str,
-    event_config: Dict[str, str],
-    event: Dict[str, Any],
+    event_config: dict[str, str],
+    event: dict[str, Any],
 ) -> None:
     """bleep bloop"""
     logger_class.info("Alert action pushover send_pushover_event started.")

@@ -2,7 +2,7 @@
 
 # Always put this line at the beginning of this file
 try:
-    import import_declare_test  # type: ignore[import-not-found]  # noqa: F401
+    import import_declare_test  # type: ignore[import-not-found]  # noqa: F401 # ty: ignore[unresolved-import]
 except ImportError:
     pass
 
@@ -11,12 +11,11 @@ import traceback
 from typing import Any
 
 import requests
+from splunktaucclib.alert_actions_base import ModularAlertBase
+from ta_pushover import modalert_pushover_helper  # ty: ignore[unresolved-import]
 
-from splunktaucclib.alert_actions_base import ModularAlertBase  # type: ignore
-from ta_pushover import modalert_pushover_helper
 
-
-class AlertActionWorkerpushover(ModularAlertBase):  # type: ignore
+class AlertActionWorkerpushover(ModularAlertBase):
     """pushover worker"""
 
     def __init__(self, ta_name: str, alert_name: str) -> None:
@@ -42,7 +41,7 @@ class AlertActionWorkerpushover(ModularAlertBase):  # type: ignore
             self.log_error(
                 "'message' is a mandatory parameter, but its value is missing."
             )
-            self.log_error("Got the following configuration: %s" % self.configuration)
+            self.log_error("Got the following configuration: %s" % self.configuration)  # noqa: UP031
             return False
 
         if not self.get_param("account"):
@@ -63,7 +62,7 @@ class AlertActionWorkerpushover(ModularAlertBase):  # type: ignore
                 f"Error: {attribute_error}.",
             )
             return 4
-        except Exception as error:  # pylint: disable=broad-except
+        except Exception as error:  # pylint: disable=broad-except  # noqa: BLE001
             msg = "Unexpected error: {}."
             if str(error):
                 self.log_error(msg.format(str(error)))
