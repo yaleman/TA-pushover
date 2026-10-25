@@ -2,19 +2,21 @@
 
 # pylint: disable=logging-fstring-interpolation,assignment-from-none
 
+from __future__ import annotations
+
 import json
+import sys
 
 # import logging
 from pathlib import Path
-import sys
 from time import sleep
-from typing import Any, Optional, TypedDict
+from typing import Any, TypedDict
 
 import click
-from loguru import logger
 import requests
-from splunklib.binding import HTTPError  # type: ignore[import-untyped]
+from loguru import logger
 from splunklib import client  # type: ignore[import-untyped]
+from splunklib.binding import HTTPError  # type: ignore[import-untyped]
 from splunklib.results import JSONResultsReader, Message  # type: ignore[import-untyped]
 
 
@@ -29,7 +31,7 @@ class ConfigFile(TypedDict):
     pushover_app_name: str
     pushover_user_key: str
     pushover_application_token: str
-    pushover_device_name: Optional[str]
+    pushover_device_name: str | None
 
 
 def load_config() -> ConfigFile:
@@ -47,7 +49,7 @@ def load_config() -> ConfigFile:
 # log in
 def configure_app(
     config: ConfigFile,
-    splunk: client,
+    splunk: client.Service,
 ) -> None:
     """Create or update the UCC account used by the alert action."""
     account_name = config["pushover_app_name"]
@@ -220,7 +222,7 @@ def main(
             scheme="https",
             # verify=True,
         )
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
         logger.error(
             "Failed to connect to {} error: {}", configuration["splunk_hostname"], error
         )
@@ -239,7 +241,7 @@ def main(
     if not send:
         try:
             configure_app(configuration, splunk)
-        except Exception as error:
+        except Exception as error:  # noqa: BLE001
             logger.error("Failed to configure app: {}", error)
             sys.exit(1)
 
