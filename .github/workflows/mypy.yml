@@ -4,11 +4,11 @@ name: mypy
 "on":
   push:
     branches:
-      - main # Set a branch to deploy
+      - main
   pull_request:
 
 jobs:
-  mypy:
+  mypy: # don't rename, used for rulesets
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
