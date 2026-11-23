@@ -39,3 +39,6 @@ run = "uv run ruff check --fix"
 
 [tasks.check]
 depends = ["ruff", "ty", "codespell"]
+
+[tasks.pytest]
+run = "uv run pytest"
